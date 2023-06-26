@@ -12,12 +12,11 @@
   .card-container {
     display: flex;
     justify-content: center;
-    
   }
   
   .card {
     border-radius: 30%;
-    width: 150px;
+    width: 200px;
     height: 200px;
     background: white;
     margin: 40px;

@@ -47,6 +47,9 @@
     align-items: center;
     margin-left: 10px;
   }
+  .profile-text:hover {
+    color: blue;
+  }
   
   .profile-icon {
     width: 30px;
