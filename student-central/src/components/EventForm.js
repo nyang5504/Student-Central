@@ -12,7 +12,9 @@ const EventForm = (props) => {
         a_event.title = e.target.title.value;
         a_event.start = e.target.from.value;
         a_event.end = e.target.to.value;
-        props.addEvent(a_event);
+		const new_event = [a_event];
+		const all_events = new_event.concat(props.currEvents);
+        props.addEvent(all_events);
     }
 
     return (

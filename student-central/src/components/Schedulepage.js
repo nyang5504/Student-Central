@@ -8,11 +8,15 @@ import EventForm from './EventForm';
 const SchedulePage = () => {
 
     const [events, setEvents] = useState([]);
+	console.log(events);
 
     return (
         <div className="schedulepage-container">
             <Schedule myEvents={events}/>
-            <EventForm addEvent={setEvents}/>
+            <EventForm 
+				addEvent={setEvents}
+				currEvents={events}
+			/>
         </div>
     );
 };

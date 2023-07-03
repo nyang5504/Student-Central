@@ -9,9 +9,9 @@ const Schedule = (props) => {
         <FullCalendar
             plugins={[dayGridPlugin]}
             initialView='dayGridMonth'
-            events={[
+            events={
                 props.myEvents
-            ]}
+            }
         />
     );
 };
