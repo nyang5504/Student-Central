@@ -1,18 +1,13 @@
-require('dotenv').config()
-const USER = process.env.USER;
-const PASSWORD = process.env.PASSWORD;
-
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
-
 
 //MongoDB port
 const app = express();
 const port = 4000;
 
 // MongoDB url and password
-const uri = `mongodb+srv://${USER}:${PASSWORD}@studentcentral.mci0sqm.mongodb.net/`;
+const uri = 'mongodb+srv://User1:98k4dV1crHfXzpg3@studentcentral.mci0sqm.mongodb.net/';
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
