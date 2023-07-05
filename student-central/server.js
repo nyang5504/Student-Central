@@ -1,10 +1,15 @@
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 //MongoDB port
 const app = express();
 const port = 4000;
+app.use(cors());
+
+// Parse JSON for this app
+app.use(express.json());
 
 // MongoDB url and password
 const uri = 'mongodb+srv://User1:98k4dV1crHfXzpg3@studentcentral.mci0sqm.mongodb.net/';
