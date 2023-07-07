@@ -93,11 +93,25 @@ MongoClient.connect(uri, options)
     //Endpoint to save events to database
     app.post('/schedule/save-events', async (req, res) => {
       const events = req.body;
-      console.log('events:', JSON.stringify(events));
+      // console.log('events:', JSON.stringify(events));
+      // try{
+      //   await collection.deleteMany({});
+      // } catch(error) {
+      //   console.log("not deleted");
+      // }
+
       try{
-        console.log("HELLO");
-        await collection.insertOne({eventsList: events});
-        res.status(200).json({ message: "save successful"})
+        // console.log("HELLO");
+        const hasEvents = await collection.findOne({});
+        if(hasEvents){
+          await collection.updateOne({},
+            { $set: {eventsList: events}});
+          res.status(200).json({ message: "save successful"})
+        }
+        else{
+          await collection.insertOne({eventsList: events});
+        }
+        
       } catch (error) {
         res.status(500).json({ error: 'failed to save correctly' });
       }
@@ -113,8 +127,20 @@ MongoClient.connect(uri, options)
 
     //Endpoint to get events from database
     app.get('/schedule/my-events', async (req, res) =>{
-      const my_events = await collection.findOne({}).eventsList;
-      res.send(my_events);
+      try{
+        const my_events = await collection.findOne({});
+        if(my_events){
+          console.log('myevents: ', my_events);
+          res.json(my_events.eventsList);
+        }
+        else{
+          console.log("returned no events");
+          res.json([]);
+        }
+        
+      } catch(error){
+        res.status(500).json({ error: "get events error" });
+      }
     })
 
     // Server success or error
