@@ -2,6 +2,8 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+
 
 //MongoDB port
 const app = express();

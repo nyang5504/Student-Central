@@ -20,9 +20,9 @@ const LoginForm = () => {
 
     // fetches post request so user data is sent to database
     const handleLogin = async (e) => {
+        // stops page from refreshing
         e.preventDefault();
 
-        // stops page from refreshing
         try {
             const response = await fetch('http://localhost:4000/api/login', {
                 method: 'POST',
