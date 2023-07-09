@@ -24,6 +24,11 @@ const Registerform = () => {
         // stops page from refreshing
         e.preventDefault();
 
+        if (formStrings.password !== formStrings.confirmPassword) {
+            setErrorMessage("Passwords do not match");
+            return;
+        }
+
         try {
             const response = await fetch('http://localhost:4000/api/register', {
                 method: 'POST',
