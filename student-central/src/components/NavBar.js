@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/NavBar.css';
+import '../styles/NavBarNew.css';
 import profileIcon from '../assets/Ellipse 6.png';
 
 const Navigation = () => {

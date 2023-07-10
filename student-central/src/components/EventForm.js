@@ -15,6 +15,14 @@ const EventForm = (props) => {
 		const new_event = [a_event];
 		const all_events = new_event.concat(props.currEvents);
         props.addEvent(all_events);
+        clearForm(e);
+        props.toggleForm();
+    }
+
+    const clearForm = (e) => {
+        e.target.title.value = "";
+        e.target.from.value = "";
+        e.target.to.value = "";
     }
 
     return (

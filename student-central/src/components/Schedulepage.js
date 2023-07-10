@@ -3,13 +3,17 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import '../styles/Schedulepage.css';
 import NavBar from './NavBar'
+import Footer from './Footer'
 import Schedule from './Schedule';
 import EventForm from './EventForm';
+import AddEventPopup from './AddEventPopup';
 
 const SchedulePage = () => {
 
     const [events, setEvents] = useState([]);
     const mounted = useRef(false);
+    
+    const [isFormOpen, setIsFormOpen] = useState(false);
 
     useEffect(() => {
         const getData = () => {
@@ -27,7 +31,7 @@ const SchedulePage = () => {
     useEffect(() => {
         const saveToDatabase = () => {
             try{
-                console.log("SAVETODATABASE", JSON.stringify(events));
+                // console.log("SAVETODATABASE", JSON.stringify(events));
                     fetch('http://localhost:4000/schedule/save-events', {
                     method:'POST',
                     headers: {
@@ -41,6 +45,7 @@ const SchedulePage = () => {
         }
         if(mounted.current){
             saveToDatabase();
+            console.log(typeof events[0].start);
         }
         else{
             mounted.current = true;
@@ -50,13 +55,22 @@ const SchedulePage = () => {
 
 	// console.log(events);
 
+    const ToggleFormPopup = () => {
+        setIsFormOpen(!isFormOpen);
+    }
+
     return (
         <div className="schedulepage-container">
-            <Schedule myEvents={events}/>
-            <EventForm 
-				addEvent={setEvents}
-				currEvents={events}
-			/>
+            <NavBar/>
+            <Schedule myEvents={events} currEvents={events} updateEvents={setEvents}/>
+            <button onClick={ToggleFormPopup}>Add new event</button>
+            {isFormOpen && 
+                <AddEventPopup 
+                    addEvent={setEvents}
+                    currEvents={events}
+                    toggleForm={ToggleFormPopup}/>
+            }
+            <Footer/>
         </div>
     );
 };
