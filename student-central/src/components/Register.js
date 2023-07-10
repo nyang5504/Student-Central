@@ -11,6 +11,7 @@ const Registerform = () => {
         confirmPassword: '',
     });
 
+    //Declare variables
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ const Registerform = () => {
         // stops page from refreshing
         e.preventDefault();
 
+        //Checks if passowrd/confirmpassword works
         if (formStrings.password !== formStrings.confirmPassword) {
             setErrorMessage("Passwords do not match");
             return;
@@ -40,10 +42,12 @@ const Registerform = () => {
             });
 
             if (response.ok) {
-                console.log('Sign up was successful')
+                console.log('Sign up was a success')
+                //Redirects user to login page 
                 navigate('/login');
             } else {
-                setErrorMessage('Error registering, try again');
+                setErrorMessage('Try again');
+                //Resets form
                 setFormStrings({
                     username: '',
                     password: '',

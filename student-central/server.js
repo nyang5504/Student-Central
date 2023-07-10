@@ -10,13 +10,13 @@ const cookieParser = require('cookie-parser');
 const app = express();
 const port = 4000;
 
-//Cors 
+//Cors for security
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
-// Parse JSON for this app
+// Parses JSON file
 app.use(express.json());
 
-// Parse cookies
+// Parses cookies
 app.use(cookieParser());
 
 // MongoDB url and password
@@ -37,29 +37,31 @@ MongoClient.connect(uri, options)
     app.post('/api/register', async (req, res) => {
       const { username, password } = req.body;
 
-      // Validate the data
+      // checks if username or password is valid, if not send Client error response
       if (!username || !password) {
-        return res.status(400).json({ error: 'Invalid username or password' });
+        return res.status(400).json({ error: 'Bad username or password' });
       }
 
       try {
-        // Check if the user exists
+        // Check if the user exists, if not, send client error response
         const existingUser = await collection.findOne({ username });
         if (existingUser) {
           return res.status(409).json({ error: 'Username is taken' });
         }
 
-        // Password hash for security
+        // Password hash using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Save the user to the database
+        // Save the username and password to collection
         const newUser = { username, password: hashedPassword };
         await collection.insertOne(newUser);
 
-        res.status(201).json({ message: 'Registration successful.' });
+        //Send succesful response
+        res.status(201).json({ message: 'Registration was a success' });
       } catch (error) {
-        console.error('Error registering user:', error);
-        res.status(500).json({ error: 'Failed to register user.' });
+        console.error('Error registering', error);
+        //Send Server error response
+        res.status(500).json({ error: 'Could not register' });
       }
     });
 
@@ -67,67 +69,71 @@ MongoClient.connect(uri, options)
     app.post('/api/login', async (req, res) => {
       const { username, password } = req.body;
 
-      // Validate the data
+      // Checks if username or password is inputted, if not send client error response
       if (!username || !password) {
-        return res.status(400).json({ error: 'Please provide both username and password.' });
+        return res.status(400).json({ error: 'Enter username and password again' });
       }
 
       try {
-        // Find user in datbase
+        // Find the user in the collection
         const user = await collection.findOne({ username });
+        //Checks if user exist, if not send client error response
         if (!user) {
-          return res.status(401).json({ error: 'Invalid credentials.' });
+          return res.status(401).json({ error: 'Could not find user' });
         }
 
-        // Verify the password
+        // Check if passwords is good by comparing using bcrypt
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-          return res.status(401).json({ error: 'Invalid credentials.' });
+          return res.status(401).json({ error: 'Invalid password' });
         }
 
-        // Generate and sign the JWT
+        // Create a token based on username and key, key will be randomized later
         const token = jwt.sign({ username }, '1234');
 
-        // Set the JWT as a cookie
+        // Create cookie and set the token. httpOnly and sameSite is for security
         res.cookie('token', token, {httpOnly: true,sameSite: 'strict',});
 
-        console.log('Token', token);
-        // Authentication successful
-        res.status(200).json({ message: 'Login successful.' });
+        // Send successful response
+        res.status(200).json({ message: 'Login was a success' });
       } catch (error) {
-        console.error('Error logging in:', error);
-        res.status(500).json({ error: 'Failed to log in.' });
+        console.error('Login error', error);
+        res.status(500).json({ error: 'Could not login' });
       }
     });
 
-    // Retrieving profile info
+    // Endpoint for profile
     app.get('/api/profile', async (req, res) => {
+      // Request token from the client 
       const token = req.cookies.token;
 
+      //Checks if token exist, if not send client error response
       if (!token) {
-        return res.status(401).json({ error: 'Unauthorized: No token provided.' });
+        return res.status(401).json({ error: 'Token doesn not exist' });
       }
 
       try {
+        //Verifies the token and finds the user it belongs to in the collection
         const { username } = jwt.verify(token, '1234');
         const user = await collection.findOne({ username });
-
+        //If user does not exist, send client error response
         if (!user) {
-          return res.status(404).json({ error: 'User not found.' });
+          return res.status(404).json({ error: 'User does not exist' });
         }
-
+        //Send the data as JSON response
         res.json(user);
       } catch (error) {
-        console.error('Error verifying token:', error);
-        res.status(401).json({ error: 'Unauthorized: Invalid token.' });
+        console.error('Bad token', error);
+        res.status(401).json({ error: 'Token does not exist' });
       }
     });
 
     // Endpoint for sign-out
     app.post('/api/sign-out', (req, res) => {
-      // Clear the token cookie
+      // Deletes cookie
       res.clearCookie('token');
-      res.status(200).json({ message: 'Sign-out successful.' });
+      // Send success response
+      res.status(200).json({ message: 'User signed out.' });
     });
 
     // Server success or error

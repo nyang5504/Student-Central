@@ -10,6 +10,7 @@ const LoginForm = () => {
         password: '',
     });
 
+    //Declare variables
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
@@ -33,12 +34,14 @@ const LoginForm = () => {
                 body: JSON.stringify(formStrings),
                 credentials: 'include',
             });
-            
+
             if (response.ok) {
                 console.log('Login successful');
+                //Redirects user to their profile page
                 navigate('/profile');
             } else {
-                setErrorMessage('Invalid username or password');
+                setErrorMessage('Wrong username and password');
+                //Resets form
                 setFormStrings({
                     username: '',
                     password: '',
