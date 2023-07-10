@@ -31,7 +31,7 @@ MongoClient.connect(uri, options)
   .then((client) => {
     console.log('Connected to MongoDB!');
     const db = client.db('all_users');
-    const collection = db.collection('users');
+    const userCollection = db.collection('users');
 
     // Endpoint for registration
     app.post('/api/register', async (req, res) => {
@@ -44,7 +44,7 @@ MongoClient.connect(uri, options)
 
       try {
         // Check if the user exists, if not, send client error response
-        const existingUser = await collection.findOne({ username });
+        const existingUser = await userCollection.findOne({ username });
         if (existingUser) {
           return res.status(409).json({ error: 'Username is taken' });
         }
@@ -54,7 +54,7 @@ MongoClient.connect(uri, options)
 
         // Save the username and password to collection
         const newUser = { username, password: hashedPassword };
-        await collection.insertOne(newUser);
+        await userCollection.insertOne(newUser);
 
         //Send succesful response
         res.status(201).json({ message: 'Registration was a success' });
@@ -76,7 +76,7 @@ MongoClient.connect(uri, options)
 
       try {
         // Find the user in the collection
-        const user = await collection.findOne({ username });
+        const user = await userCollection.findOne({ username });
         //Checks if user exist, if not send client error response
         if (!user) {
           return res.status(401).json({ error: 'Could not find user' });
@@ -115,7 +115,7 @@ MongoClient.connect(uri, options)
       try {
         //Verifies the token and finds the user it belongs to in the collection
         const { username } = jwt.verify(token, '1234');
-        const user = await collection.findOne({ username });
+        const user = await userCollection.findOne({ username });
         //If user does not exist, send client error response
         if (!user) {
           return res.status(404).json({ error: 'User does not exist' });
