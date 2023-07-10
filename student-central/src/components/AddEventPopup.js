@@ -7,6 +7,7 @@ const AddEventPopup = (props) => {
         <div id="popup-div">
             <div id="form-backdrop" onClick={props.toggleForm}/>
             <div id="form-container">
+                <h3 id="form-title">Add Event</h3>
                 <EventForm
                     addEvent={props.addEvent}
                     currEvents={props.currEvents}

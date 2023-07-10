@@ -46,7 +46,6 @@ const SchedulePage = () => {
         }
         if(mounted.current){
             saveToDatabase();
-            console.log(typeof events[0].start);
         }
         else{
             mounted.current = true;

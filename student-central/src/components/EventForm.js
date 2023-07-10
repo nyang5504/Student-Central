@@ -11,7 +11,14 @@ const EventForm = (props) => {
         const a_event = new Object();
         a_event.title = e.target.title.value;
         a_event.start = e.target.from.value;
-        a_event.end = e.target.to.value;
+        const end = new Date(e.target.to.value);
+        end.setDate(end.getDate() + 2);
+
+        const fixedEnd = String(end.getFullYear()) + "-" + 
+            String(end.getMonth()+1).padStart(2,'0') + "-" + 
+            String(end.getDate()).padStart(2,"0");
+
+        a_event.end = fixedEnd;
 		const new_event = [a_event];
 		const all_events = new_event.concat(props.currEvents);
         props.addEvent(all_events);
@@ -27,7 +34,7 @@ const EventForm = (props) => {
 
     return (
         <form id="addevent" onSubmit={OrganizeAddEvent}>
-            <label htmlFor='title'>Title:</label>
+            <label htmlFor='title'>Event:</label>
             <input type='text' required id="title"/>
 
             <label htmlFor='from'>From:</label>
@@ -38,6 +45,7 @@ const EventForm = (props) => {
 
             <input type="submit" id="add"/>
         </form>
+        
     );
 };
 

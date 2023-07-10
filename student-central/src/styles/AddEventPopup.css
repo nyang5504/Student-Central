@@ -14,10 +14,14 @@
     border-radius: 20px;
     margin-top:20%;
     z-index: 2;
-    height: 20%;
+    height: fit-content;
 }
 
 #close-btn{
+    margin-left: 5%;
+    margin-bottom: 5%;
+}
+#form-title{
     margin-left: 5%;
 }
 

@@ -23,12 +23,9 @@ const Schedule = (props) => {
         
         const eventDel = {title: eventTitle, start: formattedEventStart, end: formattedEventEnd};
         setToDelete(eventDel);
-        console.log(toDelete);
-
     }
 
     useEffect(() => {
-        console.log("useeff",toDelete);
         deleteEvent();
     }, [toDelete])
 
@@ -54,6 +51,18 @@ const Schedule = (props) => {
         }
     }
 
+    const onEventHover = (e) => {
+        document.body.style.cursor = "pointer";
+        e.event.setProp("backgroundColor", "#fdaaaa");
+        e.event.setProp("borderColor", "#f97c7c");
+
+    }
+    const onEventUnhover = (e) => {
+        document.body.style.cursor = "";
+        e.event.setProp("backgroundColor", "#9BC7EC");
+        e.event.setProp("borderColor", "");
+    }
+
     return (
         <FullCalendar
             plugins={[dayGridPlugin]}
@@ -62,7 +71,10 @@ const Schedule = (props) => {
                 props.myEvents
             }
             selectable={true}
+            eventBackgroundColor='#9BC7EC'
             eventClick={onEventClick}
+            eventMouseEnter={onEventHover}
+            eventMouseLeave={onEventUnhover}
         />
     );
 };
