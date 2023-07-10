@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import '../styles/Register.css';
 
@@ -9,7 +10,9 @@ const Registerform = () => {
         password: '',
         confirmPassword: '',
     });
+
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     // Allows users to type in the form
     const handleInputChange = (e) => {
@@ -38,6 +41,7 @@ const Registerform = () => {
 
             if (response.ok) {
                 console.log('Sign up was successful')
+                navigate('/login');
             } else {
                 setErrorMessage('Error registering, try again');
                 setFormStrings({
