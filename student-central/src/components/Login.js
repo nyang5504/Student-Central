@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import NavBar from './NavBar';
 import '../styles/Login.css';
 
@@ -8,7 +9,9 @@ const LoginForm = () => {
         username: '',
         password: '',
     });
+
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     // Allows users to type in the form
     const handleInputChange = (e) => {
@@ -28,10 +31,12 @@ const LoginForm = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formStrings),
+                credentials: 'include',
             });
-
+            
             if (response.ok) {
                 console.log('Login successful');
+                navigate('/profile');
             } else {
                 setErrorMessage('Invalid username or password');
                 setFormStrings({
