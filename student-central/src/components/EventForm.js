@@ -30,7 +30,7 @@ const EventForm = (props) => {
             <label htmlFor='title'>Title:</label>
             <input type='text' required id="title"/>
 
-            <label htmlFor='from'>Form:</label>
+            <label htmlFor='from'>From:</label>
             <input type="date" required id="from"/>
 
             <label htmlFor='to'>To:</label>

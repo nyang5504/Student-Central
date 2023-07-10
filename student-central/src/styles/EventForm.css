@@ -1,4 +1,5 @@
 #addevent{
     display: flex;
-    margin-bottom: 5%;
+    justify-content: space-around;
+    margin: 5%;
 }

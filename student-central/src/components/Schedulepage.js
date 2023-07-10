@@ -7,6 +7,7 @@ import Footer from './Footer'
 import Schedule from './Schedule';
 import EventForm from './EventForm';
 import AddEventPopup from './AddEventPopup';
+import AddBtn from "../assets/add-btn.png"
 
 const SchedulePage = () => {
 
@@ -63,7 +64,7 @@ const SchedulePage = () => {
         <div className="schedulepage-container">
             <NavBar/>
             <Schedule myEvents={events} currEvents={events} updateEvents={setEvents}/>
-            <button onClick={ToggleFormPopup}>Add new event</button>
+            <img src={AddBtn} onClick={ToggleFormPopup} id="add-btn"/>
             {isFormOpen && 
                 <AddEventPopup 
                     addEvent={setEvents}

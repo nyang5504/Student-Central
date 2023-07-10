@@ -5,5 +5,11 @@
     flex-wrap: wrap;
 
     /* height: 200%; */
-  }
+}
   
+#add-btn{
+  height: 3%;
+  width: 3%;
+  margin-left: 1%;
+  cursor: pointer;
+}
