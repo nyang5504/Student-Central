@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
 
@@ -10,7 +9,7 @@ const app = express();
 const port = 4000;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 // MongoDB url and password
 const uri = 'mongodb+srv://User1:98k4dV1crHfXzpg3@studentcentral.mci0sqm.mongodb.net/';
@@ -93,20 +92,11 @@ MongoClient.connect(uri, options)
     //Endpoint to save events to database
     app.post('/schedule/save-events', async (req, res) => {
       const events = req.body;
-      // console.log('events:', JSON.stringify(events));
-      // try{
-      //   await collection.deleteMany({});
-      // } catch(error) {
-      //   console.log("not deleted");
-      // }
-
       try{
-        // console.log("HELLO");
         const hasEvents = await collection.findOne({});
         if(hasEvents){
           await collection.updateOne({},
             { $set: {eventsList: events}});
-          res.status(200).json({ message: "save successful"})
         }
         else{
           await collection.insertOne({eventsList: events});
@@ -120,9 +110,6 @@ MongoClient.connect(uri, options)
       // } catch(error) {
       //   console.log("not deleted");
       // }
-      
-      
-      
     })
 
     //Endpoint to get events from database

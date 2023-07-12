@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { useRef } from 'react';
 import '../styles/Schedulepage.css';
 import NavBar from './NavBar'
 import Footer from './Footer'
 import Schedule from './Schedule';
-import EventForm from './EventForm';
 import AddEventPopup from './AddEventPopup';
 import AddBtn from "../assets/add-btn.png"
 
 const SchedulePage = () => {
 
+    //state variable and function to keep track of all events
     const [events, setEvents] = useState([]);
-    const mounted = useRef(false);
     
+    const [mounted, setMounted] = useState(false);
+    
+    //boolean to determine if the form popup is open
     const [isFormOpen, setIsFormOpen] = useState(false);
 
+    //fetches previously saved events from database
     useEffect(() => {
         const getData = () => {
             try{
@@ -29,6 +31,7 @@ const SchedulePage = () => {
         getData()
     },[])
 
+    //saves data to database
     useEffect(() => {
         const saveToDatabase = () => {
             try{
@@ -44,16 +47,15 @@ const SchedulePage = () => {
                 console.log("error saveToDatabase", error);
             }
         }
-        if(mounted.current){
+        //if already mounted, save events to database
+        if(mounted){
             saveToDatabase();
         }
+        //if mounting for the first time, dont save
         else{
-            mounted.current = true;
+            setMounted(true);
         }
-        
     }, [events]);
-
-	// console.log(events);
 
     const ToggleFormPopup = () => {
         setIsFormOpen(!isFormOpen);
@@ -62,11 +64,14 @@ const SchedulePage = () => {
     return (
         <div className="schedulepage-container">
             <NavBar/>
+            {/* component that includes that calendar itself */}
             <Schedule myEvents={events} currEvents={events} updateEvents={setEvents}/>
+            {/* image of a plus sign to add events */}
             <img src={AddBtn} onClick={ToggleFormPopup} id="add-btn"/>
+            {/* AddEventPopup component will only show if isFormOpen variable is true */}
             {isFormOpen && 
                 <AddEventPopup 
-                    addEvent={setEvents}
+                    setEvents={setEvents}
                     currEvents={events}
                     toggleForm={ToggleFormPopup}/>
             }

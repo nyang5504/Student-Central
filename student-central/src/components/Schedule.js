@@ -13,17 +13,23 @@ const Schedule = (props) => {
         const eventStart = e.event.start;
         const eventEnd = e.event.end;
 
-        const formattedEventStart = String(eventStart.getFullYear()) + "-" + 
-            String(eventStart.getMonth()+1).padStart(2,'0') + "-" + 
-            String(eventStart.getDate()).padStart(2,"0");
 
-        const formattedEventEnd = String(eventEnd.getFullYear()) + "-" + 
-        String(eventEnd.getMonth()+1).padStart(2,'0') + "-" + 
-        String(eventEnd.getDate()).padStart(2,"0");
-        
+        const formattedEventStart = formatDate(eventStart);
+        const formattedEventEnd = formatDate(eventEnd);
+        //create object
         const eventDel = {title: eventTitle, start: formattedEventStart, end: formattedEventEnd};
         setToDelete(eventDel);
     }
+
+    //formats dates to YYYY-MM-DD
+    const formatDate = (a_date) => {
+        const formattedDate = String(a_date.getFullYear()) + "-" + 
+        String(a_date.getMonth()+1).padStart(2,'0') + "-" + 
+        String(a_date.getDate()).padStart(2,"0");
+
+        return formattedDate;
+    }
+    
 
     useEffect(() => {
         deleteEvent();
@@ -70,7 +76,6 @@ const Schedule = (props) => {
             events={
                 props.myEvents
             }
-            selectable={true}
             eventBackgroundColor='#9BC7EC'
             eventClick={onEventClick}
             eventMouseEnter={onEventHover}
@@ -78,5 +83,4 @@ const Schedule = (props) => {
         />
     );
 };
-
 export default Schedule;
