@@ -128,6 +128,34 @@ MongoClient.connect(uri, options)
       }
     });
 
+     // Endpoint for changing password
+     app.post('/api/change-password', async (req, res) => {
+      // Get variables from Profile.js 
+      const { username, password, newPassword } = req.body;
+      
+      try {
+        // Find the user in the database
+        const user = await userCollection.findOne({ username });
+        
+        // Check to see if the current password matches the input
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+          return res.status(401).json({ error: 'Invalid current password.' });
+        }
+
+        // Hash the new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+        // Set and update the password for the user in the database
+        await userCollection.updateOne({ username }, { $set: { password: hashedNewPassword } });
+
+        res.status(200).json({ message: 'Password changed successfully.' });
+      } catch (error) {
+        console.error('Error changing password:', error);
+        res.status(500).json({ error: 'Failed to change password.' });
+      }
+    });
+
     // Endpoint for sign-out
     app.post('/api/sign-out', (req, res) => {
       // Deletes cookie
