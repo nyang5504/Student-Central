@@ -32,6 +32,7 @@ MongoClient.connect(uri, options)
     console.log('Connected to MongoDB!');
     const db = client.db('all_users');
     const userCollection = db.collection('users');
+    const collection = db.collection('calendars');
 
     // Endpoint for registration
     app.post('/api/register', async (req, res) => {
@@ -163,6 +164,49 @@ MongoClient.connect(uri, options)
       // Send success response
       res.status(200).json({ message: 'User signed out.' });
     });
+
+  //Endpoint to save events to database
+  app.post('/schedule/save-events', async (req, res) => {
+    const events = req.body;
+    try{
+      const hasEvents = await collection.findOne({});
+      if(hasEvents){
+        await collection.updateOne({},
+          { $set: {eventsList: events}});
+      }
+      else{
+        await collection.insertOne({eventsList: events});
+      }
+      
+    } catch (error) {
+      res.status(500).json({ error: 'failed to save correctly' });
+    }
+    // try{
+    //   await collection.deleteMany({});
+    // } catch(error) {
+    //   console.log("not deleted");
+    // }
+  })
+
+  //Endpoint to get events from database
+  app.get('/schedule/my-events', async (req, res) =>{
+    try{
+      //find events
+      const my_events = await collection.findOne({});
+      if(my_events){
+        console.log('myevents: ', my_events);
+        res.json(my_events.eventsList);
+      }
+      else{
+        console.log("returned no events");
+        res.json([]);
+      }
+      
+    } catch(error){
+      res.status(500).json({ error: "get events error" });
+    }
+  })
+
 
     // Server success or error
     app.listen(port, () => {
