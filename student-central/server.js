@@ -115,6 +115,7 @@ MongoClient.connect(uri, options)
     //Endpoint to get events from database
     app.get('/schedule/my-events', async (req, res) =>{
       try{
+        //find events
         const my_events = await collection.findOne({});
         if(my_events){
           console.log('myevents: ', my_events);
