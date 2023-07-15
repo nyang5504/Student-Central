@@ -168,14 +168,26 @@ MongoClient.connect(uri, options)
   //Endpoint to save events to database
   app.post('/api/schedule/save-events', async (req, res) => {
     const events = req.body;
+
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: 'Token doesn not exist' });
+    }
+
+    const { username } = jwt.verify(token, '1234');
+    const user = await userCollection.findOne({ username });
+    console.log(user);
+    
     try{
-      const hasEvents = await collection.findOne({});
+      const hasEvents = await collection.findOne({username: user});
       if(hasEvents){
-        await collection.updateOne({},
+        await collection.updateOne(hasEvents,
           { $set: {eventsList: events}});
       }
       else{
-        await collection.insertOne({eventsList: events});
+        await collection.insertOne({
+          username: user,
+          eventsList: events});
       }
       
     } catch (error) {
@@ -190,9 +202,19 @@ MongoClient.connect(uri, options)
 
   //Endpoint to get events from database
   app.get('/api/schedule/my-events', async (req, res) =>{
+    const token = req.cookies.token;
+    console.log("token",token);
+    if (!token) {
+      return res.status(401).json({ error: 'Token doesn not exist' });
+    }
+
+    const { username } = jwt.verify(token, '1234');
+    const user = await userCollection.findOne({ username });
+    console.log(user);
+    
     try{
       //find events
-      const my_events = await collection.findOne({});
+      const my_events = await collection.findOne({username: user});
       if(my_events){
         console.log('myevents: ', my_events);
         res.json(my_events.eventsList);
