@@ -21,7 +21,7 @@ const SchedulePage = () => {
     useEffect(() => {
         const getData = () => {
             try{
-                return fetch('http://localhost:4000/schedule/my-events')
+                return fetch('http://localhost:4000/api/schedule/my-events')
                 .then(res => res.json())
                 .then(data => setEvents(data));
             } catch (error) {
@@ -36,7 +36,7 @@ const SchedulePage = () => {
         const saveToDatabase = () => {
             try{
                 // console.log("SAVETODATABASE", JSON.stringify(events));
-                    fetch('http://localhost:4000/schedule/save-events', {
+                    fetch('http://localhost:4000/api/schedule/save-events', {
                     method:'POST',
                     headers: {
                         'Content-Type': 'application/json'

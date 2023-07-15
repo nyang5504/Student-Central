@@ -166,7 +166,7 @@ MongoClient.connect(uri, options)
     });
 
   //Endpoint to save events to database
-  app.post('/schedule/save-events', async (req, res) => {
+  app.post('/api/schedule/save-events', async (req, res) => {
     const events = req.body;
     try{
       const hasEvents = await collection.findOne({});
@@ -189,7 +189,7 @@ MongoClient.connect(uri, options)
   })
 
   //Endpoint to get events from database
-  app.get('/schedule/my-events', async (req, res) =>{
+  app.get('/api/schedule/my-events', async (req, res) =>{
     try{
       //find events
       const my_events = await collection.findOne({});
