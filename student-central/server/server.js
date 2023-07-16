@@ -1,3 +1,7 @@
+require('dotenv').config()
+const username = process.env.USER;
+const password = process.env.PASSWORD;
+const key = process.env.KEY;
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
@@ -20,7 +24,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // MongoDB url and password
-const uri = 'mongodb+srv://User1:98k4dV1crHfXzpg3@studentcentral.mci0sqm.mongodb.net/';
+const uri = `mongodb+srv://${username}:${password}@studentcentral.mci0sqm.mongodb.net/`;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -90,7 +94,7 @@ MongoClient.connect(uri, options)
         }
 
         // Create a token based on username and key, key will be randomized later
-        const token = jwt.sign({ username }, '1234');
+        const token = jwt.sign({ username }, key);
 
         // Create cookie and set the token. httpOnly and sameSite is for security
         res.cookie('token', token, {httpOnly: true,sameSite: 'strict',});
@@ -115,7 +119,7 @@ MongoClient.connect(uri, options)
 
       try {
         //Verifies the token and finds the user it belongs to in the collection
-        const { username } = jwt.verify(token, '1234');
+        const { username } = jwt.verify(token, key);
         const user = await userCollection.findOne({ username });
         //If user does not exist, send client error response
         if (!user) {
@@ -174,7 +178,7 @@ MongoClient.connect(uri, options)
       return res.status(401).json({ error: 'Token doesn not exist' });
     }
 
-    const { username } = jwt.verify(token, '1234');
+    const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
     console.log(user);
     
@@ -208,7 +212,7 @@ MongoClient.connect(uri, options)
       return res.status(401).json({ error: 'Token doesn not exist' });
     }
 
-    const { username } = jwt.verify(token, '1234');
+    const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
     console.log(user);
     
