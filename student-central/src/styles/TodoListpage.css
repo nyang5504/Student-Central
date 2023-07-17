@@ -1,0 +1,18 @@
+#todolist-contents-div{
+    display: flex;
+}
+
+#sidebar1{
+    width: 15%;
+}
+#sidebar2{
+    width:25%;
+}
+
+.quill{
+    width: 60%;
+}
+
+.ql-container.ql-snow{
+    height: 90vh;
+}
