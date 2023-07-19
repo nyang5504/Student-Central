@@ -3,16 +3,16 @@
 }
 
 #sidebar1{
+
     width: 15%;
 }
 #sidebar2{
+
     width:25%;
 }
-
-.quill{
-    width: 60%;
+#sidebarInput{
+    width: 90%;
 }
-
-.ql-container.ql-snow{
-    height: 90vh;
+#sidebarAdd{
+    width: 95%;
 }

@@ -1,0 +1,12 @@
+.notes-section-container{
+    display: flex;
+    width: 100%;
+}
+
+.quill{
+    width: 100%;
+}
+
+.ql-container.ql-snow{
+    height: 90vh;
+}
