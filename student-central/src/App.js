@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import SchedulePage from './components/Schedulepage';
-import TodoListPage from './components/TodoListpage';
+import TodoPage from './components/TodoPage';
 
 const App = () => {
     return (
@@ -15,7 +15,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/schedule" element={<SchedulePage/>}/>
-            <Route path='/todo' element={<TodoListPage/>}/>
+            <Route path='/list' element={<TodoPage/>}/>
         </Routes>
     );
 };

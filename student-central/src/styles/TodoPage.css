@@ -1,0 +1,19 @@
+.todo-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.note-section {
+  flex: 1;
+  padding: 30px;
+  box-sizing: border-box;
+  background-color: rgb(211, 234, 255);
+  /* border-left: 1px solid grey; */
+  overflow-y: auto;
+}
+
+.note-section .ql-editor {
+  min-height: 60vh;
+  font-size: 12px;
+}
