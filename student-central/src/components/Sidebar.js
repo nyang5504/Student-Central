@@ -1,41 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
+import '../styles/Sidebar.css';
 
-const Sidebar = (props) => {
+const Sidebar = ({ setSelectedFolder, folders, onAddFolder, onDeleteFolder}) => {
+  const [newFolderName, setNewFolderName] = useState('');
 
-    const addOnClick = (e) =>{
-        e.preventDefault();
-        e.target.style.display = "none";
-        e.target.parentNode.nextElementSibling.firstChild.style.display = "";
-        e.target.parentNode.nextElementSibling.nextElementSibling.style.display = "";
+  // Function to set the current folder being used and edited
+  const handleFolderClick = (folderName) => {
+    setSelectedFolder(folderName);
+  };
+
+  // Function to make a new folder
+  const handleCreateFolder = () => {
+    // Checks if the name is not empty
+    if (newFolderName.trim() !== '') {
+      onAddFolder(newFolderName);
+      setNewFolderName('');
     }
-    const addNewItem = (e) => {
-        e.preventDefault();
-        const currentData = [...props.data];
-        const updatedData = currentData.concat(e.target.sidebarInput.value);
-        props.setData(updatedData);
-    }
+  };
 
-    return (
-        <div className="sidebar-container" id={props.myId}>
-            <ul style={{listStyleType: "none"}}>
-                {props.data.map((item) =>{
-                    return(
-                        <li>{item}</li>
-                    )
-                }
-                    
-                )}
-            </ul>
-            <form>
-                <input type="submit" value="Add" id="sidebarAdd" onClick={addOnClick}/>
-                
-            </form>
-            <form onSubmit={addNewItem}>
-                <input type = "text" id="sidebarInput" style={{display: "none"}}/>
-            </form>
-            <button id="sidebarAdd" style={{display: "none"}}> Cancel</button>
+  // Function to delete a folder
+  const handleDeleteFolder = (folderName) => {
+    onDeleteFolder(folderName); 
+  };
+
+  return (
+    <div className="sidebar">
+      {/* Iterates over the folder array and creates a new array of div elements to render */}
+      {folders.map((folder, index) => (
+        <div key={index} onClick={() => handleFolderClick(folder)}>
+          {folder}
+          <button onClick={() => handleDeleteFolder(folder)}>Delete</button>
         </div>
-    );
+      ))}
+      <div>
+        <input
+          // Textbox for users to create a folder
+          type="text"
+          value={newFolderName}
+          onChange={(e) => setNewFolderName(e.target.value)}
+          placeholder="New Folder Name"
+        />
+        <button onClick={handleCreateFolder}>Add Folder</button>
+      </div>
+    </div>
+  );
 };
 
 export default Sidebar;
+

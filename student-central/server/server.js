@@ -37,6 +37,7 @@ MongoClient.connect(uri, options)
     const db = client.db('all_users');
     const userCollection = db.collection('users');
     const collection = db.collection('calendars');
+    const todoCollection = db.collection('todolist');
 
     // Endpoint for registration
     app.post('/api/register', async (req, res) => {
@@ -220,7 +221,7 @@ MongoClient.connect(uri, options)
       //find events
       const my_events = await collection.findOne({username: user});
       if(my_events){
-        console.log('myevents: ', my_events);
+        // console.log('myevents: ', my_events);
         res.json(my_events.eventsList);
       }
       else{
@@ -232,6 +233,78 @@ MongoClient.connect(uri, options)
       res.status(500).json({ error: "get events error" });
     }
   })
+
+  app.post('/api/schedule/save-folders', async (req, res) => {
+    const body = req.body;
+    // const folder = req.body.folder;
+    // const folderitem = req.body.folderitem;
+    // const notes = req.body.notes;
+
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: 'Token doesn not exist' });
+    }
+
+    const { username } = jwt.verify(token, key);
+    const user = await userCollection.findOne({ username });
+    console.log(user);
+    
+    try{
+      const hasfolder = await todoCollection.findOne(
+        {username: user},
+        );
+      if(hasfolder){
+        await todoCollection.updateOne(hasfolder,
+          { $set: {folderNotes: body}
+        });
+      }
+      else{
+        await todoCollection.insertOne({
+          username: user,
+          folderNotes: body
+        });
+      }
+      
+    } catch (error) {
+      res.status(500).json({ error: 'failed to save correctly' });
+    }
+  })
+  //get all folders of the user
+  app.get('/api/schedule/my-folders', async (req, res) => {
+    const token = req.cookies.token;
+    console.log("token",token);
+    if (!token) {
+      return res.status(401).json({ error: 'Token doesn not exist' });
+    }
+
+    const { username } = jwt.verify(token, key);
+    const user = await userCollection.findOne({ username });
+    console.log(user);
+    
+    try{
+      //find events
+      const my_folders = await todoCollection.findOne({username: user});
+      if(my_folders){
+        console.log('myfolders: ', my_folders);
+        res.json(my_folders.folderNotes);
+      }
+      else{
+        console.log("returned no folders");
+        res.json({});
+      }
+      
+    } catch(error){
+      console.log("ERROR my-folders", error);
+      res.status(500).json({ error: "get folders error" });
+    }
+  })
+
+  // app.post('/api/schedule/save-notes', async (req, res) => {
+    
+  // })
+  // app.get('/api/schedule/my-notes', async (req, res) => {
+    
+  // })
 
 
     // Server success or error
