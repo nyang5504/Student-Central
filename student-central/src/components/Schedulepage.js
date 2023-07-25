@@ -67,7 +67,6 @@ const SchedulePage = () => {
 
     return (
         <div className="schedulepage-container">
-            <NavBar/>
             {/* component that includes that calendar itself */}
             <Schedule myEvents={events} currEvents={events} updateEvents={setEvents}/>
             {/* image of a plus sign to add events */}
@@ -79,7 +78,6 @@ const SchedulePage = () => {
                     currEvents={events}
                     toggleForm={ToggleFormPopup}/>
             }
-            <Footer/>
         </div>
     );
 };

@@ -90,10 +90,9 @@ const Profile = () => {
 
     return (
         <div className="profile-container">
-            <NavBar />
             <h2 className="title">Hello, {user.username}</h2>
             <div className="password-change">
-        <form onSubmit={changePassword}>
+        <form onSubmit={changePassword} className='profile-form'>
           <div>
             <label>Current Password:</label>
             <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} />

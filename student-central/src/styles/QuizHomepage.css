@@ -1,0 +1,11 @@
+.quizHome-container{
+    display: flex;
+}
+
+.quizHome-left{
+    width: 50%;
+}
+
+.quizHome-right{
+    width: 50%;
+}

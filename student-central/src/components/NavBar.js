@@ -4,6 +4,7 @@ import profileIcon from '../assets/Ellipse 6.png';
 
 const Navigation = () => {
   return (
+    <div className='entire-navbar'>
     <nav className="navigation">
       <div className="container">
         <a href="/" className="logo">
@@ -19,15 +20,16 @@ const Navigation = () => {
           <a href="/quiz" className="link">
             Quiz
           </a>
-          <div className="profile-link">
-          <span className="profile-text">Profile</span>
+          <a href="/profile" className="link">
+            Profile
+          </a>
             <div className="profile-icon-">
               <img src={profileIcon} alt="Profile" className="profile-icon" />
             </div>
-          </div>
         </div>
       </div>
     </nav>
+    </div>
   );
 };
 

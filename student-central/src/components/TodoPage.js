@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import NoteSection from './NoteSection';
 import NoteList from './NoteList';
+import Footer from "./Footer"
 import '../styles/TodoPage.css';
 
 const TodoPage = () => {
@@ -106,34 +107,36 @@ useEffect(() => {
 }, [])
 
   return (
-    <div className="todo-page">
-      <Sidebar
-        //Pass down props from Sidebar.js
-        setSelectedFolder={setSelectedFolder}
-        folders={Object.keys(folderNotes)}
-        onAddFolder={handleAddFolder}
-        onDeleteFolder={deleteFolder}
-      />
-      <NoteList
-        // Pass down props to NotesList.js
-        selectedFolder={selectedFolder}
-        folderNotes={folderNotes}
-        selectedNote={selectedNote}
-        setSelectedNote={setSelectedNote}
-        onAddNoteToFolder={handleAddNoteToFolder}
-        setFolderNotes={setFolderNotes}
-        onDeleteNote={deleteNote}
-        isFolderDeleted={isFolderDeleted}
-      />
-      <NoteSection
-        // Pass down props from NoteSection.js
-        selectedFolder={selectedFolder}
-        selectedNote={selectedNote}
-        folderNotes={folderNotes}
-        setSelectedNote={setSelectedNote}
-        setFolderNotes={setFolderNotes}
-      />
-    </div>
+      <div className="todo-page">
+
+        <Sidebar
+          //Pass down props from Sidebar.js
+          setSelectedFolder={setSelectedFolder}
+          folders={Object.keys(folderNotes)}
+          onAddFolder={handleAddFolder}
+          onDeleteFolder={deleteFolder}
+        />
+        <NoteList
+          // Pass down props to NotesList.js
+          selectedFolder={selectedFolder}
+          folderNotes={folderNotes}
+          selectedNote={selectedNote}
+          setSelectedNote={setSelectedNote}
+          onAddNoteToFolder={handleAddNoteToFolder}
+          setFolderNotes={setFolderNotes}
+          onDeleteNote={deleteNote}
+          isFolderDeleted={isFolderDeleted}
+        />
+        <NoteSection
+          // Pass down props from NoteSection.js
+          selectedFolder={selectedFolder}
+          selectedNote={selectedNote}
+          folderNotes={folderNotes}
+          setSelectedNote={setSelectedNote}
+          setFolderNotes={setFolderNotes}
+        />
+        {/* <Footer/> */}
+      </div>
   );
 };
 

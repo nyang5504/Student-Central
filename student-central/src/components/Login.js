@@ -54,7 +54,6 @@ const LoginForm = () => {
 
     return (
         <div className="login-container">
-            <NavBar />
             <h2 className="title">Login</h2>
             <div className="form">
                 <form onSubmit={handleLogin}>
