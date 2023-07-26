@@ -1,19 +1,19 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from './components/Homepage';
-import Register from './components/Register';
-import Login from './components/Login';
-import Profile from './components/Profile';
+import Register from './components/user-profile/Register';
+import Login from './components/user-profile/Login';
+import Profile from './components/user-profile/Profile';
 import NavBar from "./components/NavBar";
-import SchedulePage from './components/Schedulepage';
+import SchedulePage from './components/schedule-page/Schedulepage';
 import "./App.css"
 
-import TodoPage from './components/TodoPage';
+import TodoPage from './components/todo-page/TodoPage';
 import Footer from './components/Footer';
-import QuizHomePage from './components/QuizHomepage';
-import CustomQuizPage from './components/CustomQuizpage';
-import StartQuizPage from './components/StartQuizpage';
-import PendingQuizPage from './components/PendingQuizpage';
+import QuizHomePage from './components/quiz-page/QuizHomepage';
+import CustomQuizPage from './components/quiz-page/CustomQuizpage';
+import StartQuizPage from './components/quiz-page/StartQuizpage';
+import PendingQuizPage from './components/quiz-page/PendingQuizpage';
 
 const App = () => {
     return (

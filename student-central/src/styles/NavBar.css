@@ -5,7 +5,7 @@
 
 .navigation {
     width: 100%;
-    max-width: 900px;
+    max-width: 1400px;
     top: 0;
     display: inline-block;
     background-color: white;
@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
   }
