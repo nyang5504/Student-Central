@@ -5,7 +5,7 @@ const SavedQuizCard = () => {
     return (
         <div className="savedQuizCard-container">
             <div>Quiz Title</div>
-            <button>Delete</button>
+            <button className='deleteQuiz-btn'>Delete</button>
         </div>
     );
 };

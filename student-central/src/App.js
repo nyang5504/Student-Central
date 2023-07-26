@@ -11,10 +11,13 @@ import "./App.css"
 import TodoPage from './components/TodoPage';
 import Footer from './components/Footer';
 import QuizHomePage from './components/QuizHomepage';
+import CustomQuizPage from './components/CustomQuizpage';
+import StartQuizPage from './components/StartQuizpage';
+import PendingQuizPage from './components/PendingQuizpage';
 
 const App = () => {
     return (
-        <>
+        <div className='overall-container'>
         <NavBar />
         <div className='center'>
         <Routes>
@@ -25,10 +28,13 @@ const App = () => {
             <Route path="/schedule" element={<SchedulePage />} />
             <Route path='/list' element={<TodoPage />} />
             <Route path='/quiz' element={<QuizHomePage />} />
+            <Route path='/customQuiz' element={<CustomQuizPage />} />
+            <Route path='/startQuiz' element={<StartQuizPage />} />
+            <Route path='/pendingQuiz' element={<PendingQuizPage />} />
         </Routes>
         </div>
         <Footer/>
-        </>
+        </div>
         
     );
 };

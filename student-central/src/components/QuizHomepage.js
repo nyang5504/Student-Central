@@ -7,8 +7,12 @@ const QuizHomePage = () => {
     return (
         <div className="quizHome-container">
             <div className='quizHome-left'>
-                <QuizSearch/>
-                <button className='newQuiz'>+</button>
+                <div className='quizHome-left-items'>
+                    <QuizSearch/>
+                    <div className='space-between' id="space-b-quiz"></div>
+                    <button className='newQuiz-btn'>+</button>
+                </div>
+                
             </div>
             <div className='quizHome-right'>
                 <SavedQuizzes/>

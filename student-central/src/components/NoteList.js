@@ -1,5 +1,7 @@
 import React from 'react';
-import "../styles/NoteList.css"
+import addButton from '../assets/add-button.PNG';
+import deleteButton from '../assets/delete-button.PNG';
+
 
 const NoteList = ({ selectedFolder, folderNotes, selectedNote, setSelectedNote, onAddNoteToFolder, onDeleteNote, isFolderDeleted }) => {
   // Function to handle adding a new note
@@ -26,27 +28,32 @@ const NoteList = ({ selectedFolder, folderNotes, selectedNote, setSelectedNote, 
 
   return (
     <div className="notes-list">
-      {/* Check if folder was recently deleted */}
       {isFolderDeleted ? (
-        <p> No folder selected. </p>
-      ): selectedFolder ? (
+        <p>No folder selected.</p>
+      ) : selectedFolder ? (
         <>
           <h2>All Notes in {selectedFolder}</h2>
-          {/* Checks if selected folder exists and if there are notes in that folder */}
           {folderNotes[selectedFolder] && folderNotes[selectedFolder].length > 0 ? (
-            // Iterates through array and renders each note in a div element
             folderNotes[selectedFolder].map((note, index) => (
-              <div key={index} className={`note ${selectedNote === note ? 'selected' : ''}`}
-              onClick={() => setSelectedNote(note)}>
-                <h3>{note.title}</h3>
-                {/* Add the delete button with an onClick event */}
-                <button onClick={() => handleDeleteNote(note)}>Delete</button>
+              <div
+                key={index}
+                className={`note ${selectedNote === note ? 'selected-note' : ''}`}
+                onClick={() => setSelectedNote(note)}
+              >
+                <button className="delete-button" onClick={() => handleDeleteNote(note)}>
+                  <img src={deleteButton} alt="Delete" />
+                </button>
+                <div>
+                  <h3>{note.title}</h3>
+                </div>
               </div>
             ))
           ) : (
             <p>No notes available.</p>
           )}
-          <button onClick={handleAddNote}>Add Note</button>
+          <button className="add-button" onClick={handleAddNote}>
+            <img src={addButton} alt="Add Note" />
+          </button>
         </>
       ) : (
         <p>No folder selected.</p>

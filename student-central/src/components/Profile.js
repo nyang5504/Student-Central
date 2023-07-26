@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import NavBar from './NavBar';
 import '../styles/Profile.css';
+import profileIcon from '../assets/profile-icon.PNG';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -88,27 +88,45 @@ const Profile = () => {
         }
     };
 
-    return (
-        <div className="profile-container">
-            <h2 className="title">Hello, {user.username}</h2>
-            <div className="password-change">
-        <form onSubmit={changePassword} className='profile-form'>
-          <div>
-            <label>Current Password:</label>
-            <input type="password" value={pass} onChange={(e) => setPass(e.target.value)} />
+  return (
+    <div className="profile-container">
+      <div className="profile-header">
+        <img className="profile-icon" src={profileIcon} alt="Profile Icon" />
+        <h2 className="title">Welcome, {user.username}</h2>
+      </div>
+      <div className="password-change">
+        <form onSubmit={changePassword} className="profile-form">
+          <div className="form-group">
+            <label htmlFor="currentPassword">Current Password:</label>
+            <input
+              type="password"
+              id="currentPassword"
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+            />
           </div>
-          <div>
-            <label>New Password:</label>
-            <input type="password" value={newPass} onChange={(e) => setNewPass(e.target.value)} />
+          <div className="form-group">
+            <label htmlFor="newPassword">New Password:</label>
+            <input
+              type="password"
+              id="newPassword"
+              value={newPass}
+              onChange={(e) => setNewPass(e.target.value)}
+            />
           </div>
-          <button id="change-password" type="submit">Change Password</button>
-          {successMsg && <p>{successMsg}</p>}
-          {errorMsg && <p>{errorMsg}</p>}
+          <button className="change-password-btn" type="submit">
+            Change Password
+          </button>
+          {successMsg && <p className="success-msg">{successMsg}</p>}
+          {errorMsg && <p className="error-msg">{errorMsg}</p>}
         </form>
-            <button id="sign-out" onClick={signOut}>Sign Out</button>
-        </div>
-        </div>
-    );
+        <button className="sign-out-btn" onClick={signOut}>
+          Sign Out
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default Profile;
+

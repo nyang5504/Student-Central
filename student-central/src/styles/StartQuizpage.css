@@ -1,0 +1,19 @@
+.startQuiz-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 95vh;
+    justify-content: center;
+    row-gap: 2vh;
+}
+
+.startQuiz-btn{
+    height: 50px;
+    width: 8vw;
+    font-size: medium;
+}
+
+.startQuiz-title{
+    font-size: large;
+}

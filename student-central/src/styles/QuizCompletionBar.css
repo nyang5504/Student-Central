@@ -1,0 +1,15 @@
+.QuizCompletionBar-container{
+    height: 10%;
+    width: 100%;
+}
+
+.entire-bar{
+    background-color: palevioletred;
+    height: 10px;
+}
+
+.percent-bar{
+    height: 10px;
+    background-color: pink;
+    width: 75%;
+}

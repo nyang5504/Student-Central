@@ -1,0 +1,17 @@
+.customQuizpage-container{
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    margin-top: 5vh;
+}
+
+.left-padding{
+    width: 20vw;
+}
+
+.createQuizTitle{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2vh;
+}
+

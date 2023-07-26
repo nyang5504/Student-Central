@@ -3,9 +3,40 @@
 }
 
 .quizHome-left{
+    height: 95vh;
     width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quizHome-left-items{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.space-between{
+    width: 100%;
+    
+}
+
+#space-b-quiz{
+    height: 20vh;
+}
+
+.newQuiz-btn{
+    height: 7vh;
+    width: 5vw;
+}
+
+button{
+    cursor: pointer;
 }
 
 .quizHome-right{
     width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
 }

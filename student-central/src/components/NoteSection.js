@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
-import "../styles/NoteSection.css";
 import 'react-quill/dist/quill.snow.css';
+
 
 const NoteSection = ({ selectedNote, setSelectedNote, folderNotes, selectedFolder, setFolderNotes }) => {
   const [noteContent, setNoteContent] = useState('');
@@ -53,16 +53,18 @@ const NoteSection = ({ selectedNote, setSelectedNote, folderNotes, selectedFolde
     <div className="note-section">
       {/* Condition to check if there's a selected note */}
       {selectedNote ? (
-        <div>
-          <input
-            type="text"
-            value={noteTitle}
-            onChange={(e) => setNoteTitle(e.target.value)}
-            placeholder="Note Title"
-          />
-          <ReactQuill value={noteContent} onChange={setNoteContent} />
+        <>
+          <div className="note-editor">
+            <input
+              type="text"
+              value={noteTitle}
+              onChange={(e) => setNoteTitle(e.target.value)}
+              placeholder="Note Title"
+            />
+            <ReactQuill value={noteContent} onChange={setNoteContent} />
+          </div>
           <button onClick={updateNote}>Update Note</button>
-        </div>
+        </>
       ) : (
         <p>No note selected.</p>
       )}

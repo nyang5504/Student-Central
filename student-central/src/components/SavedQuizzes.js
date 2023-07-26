@@ -10,6 +10,9 @@ const SavedQuizzes = () => {
             <SavedQuizCard/>
             <SavedQuizCard/>
             <SavedQuizCard/>
+            <SavedQuizCard/>
+            <SavedQuizCard/>
+            <SavedQuizCard/>
         </div>
     );
 };
