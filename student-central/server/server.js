@@ -182,7 +182,7 @@ MongoClient.connect(uri, options)
 
     const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
-    console.log(user);
+    //console.log(user);
     
     try{
       const hasEvents = await collection.findOne({username: user});
@@ -209,14 +209,14 @@ MongoClient.connect(uri, options)
   //Endpoint to get events from database
   app.get('/api/schedule/my-events', async (req, res) =>{
     const token = req.cookies.token;
-    console.log("token",token);
+    //console.log("token",token);
     if (!token) {
       return res.status(401).json({ error: 'Token doesn not exist' });
     }
 
     const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
-    console.log(user);
+    //console.log(user);
     
     try{
       //find events
@@ -226,7 +226,7 @@ MongoClient.connect(uri, options)
         res.json(my_events.eventsList);
       }
       else{
-        console.log("returned no events");
+        //console.log("returned no events");
         res.json([]);
       }
       
@@ -248,7 +248,7 @@ MongoClient.connect(uri, options)
 
     const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
-    console.log(user);
+    //console.log(user);
     
     try{
       const hasfolder = await todoCollection.findOne(
@@ -273,29 +273,29 @@ MongoClient.connect(uri, options)
   //get all folders of the user
   app.get('/api/schedule/my-folders', async (req, res) => {
     const token = req.cookies.token;
-    console.log("token",token);
+    //console.log("token",token);
     if (!token) {
       return res.status(401).json({ error: 'Token doesn not exist' });
     }
 
     const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
-    console.log(user);
+    //console.log(user);
     
     try{
       //find events
       const my_folders = await todoCollection.findOne({username: user});
       if(my_folders){
-        console.log('myfolders: ', my_folders);
+        //console.log('myfolders: ', my_folders);
         res.json(my_folders.folderNotes);
       }
       else{
-        console.log("returned no folders");
+        //console.log("returned no folders");
         res.json({});
       }
       
     } catch(error){
-      console.log("ERROR my-folders", error);
+      //console.log("ERROR my-folders", error);
       res.status(500).json({ error: "get folders error" });
     }
   })
@@ -309,7 +309,7 @@ MongoClient.connect(uri, options)
 
     const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
-    console.log(user);
+    //console.log(user);
     
     try{
       const hasfolder = await quizCollection.findOne(
@@ -334,34 +334,82 @@ MongoClient.connect(uri, options)
   
   app.get('/api/quiz/my-quizzes', async (req, res) => {
     const token = req.cookies.token;
-    console.log("token",token);
+    //console.log("token",token);
     if (!token) {
       return res.status(401).json({ error: 'Token doesn not exist' });
     }
 
     const { username } = jwt.verify(token, key);
     const user = await userCollection.findOne({ username });
-    console.log(user);
+    //console.log(user);
     
     try{
       //find events
       const my_quizzes = await quizCollection.findOne({username: user});
       if(my_quizzes){
-        console.log('myfolders: ', my_quizzes);
+        //console.log('myfolders: ', my_quizzes);
         res.json(my_quizzes.quizList);
       }
       else{
-        console.log("returned no quizzes");
+        //console.log("returned no quizzes");
         res.json({});
       }
       
     } catch(error){
-      console.log("ERROR my-quizzes", error);
+      //console.log("ERROR my-quizzes", error);
       res.status(500).json({ error: "get quizzes error" });
     }
   })
+  
+// Delete Quiz Endpoint
+app.delete('/api/quiz/delete-quiz/:quizName', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ error: 'Token does not exist' });
+  }
 
+  const { username } = jwt.verify(token, key);
+  const quizName = req.params.quizName;
+  const user = await userCollection.findOne({ username });
 
+  try {
+    // Find the document for the user
+    //console.log('username:', username);
+    const userDocument = await quizCollection.findOne({ username: user });
+    //console.log('userDocument:', userDocument);
+
+    if (!userDocument) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Find the quiz list for the user
+    const quizList = userDocument.quizList; // Access the quizList directly
+    //console.log('Quiz List:', quizList);
+
+    if (!quizList) {
+      return res.status(404).json({ error: 'Quiz list not found for the user' });
+    }
+
+    // Check if the quiz exists in the quizList
+    if (!(quizName in quizList)) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+
+    // Remove the quiz from the quizList object
+    delete quizList[quizName];
+
+    // Update the user document with the modified quizList
+    await quizCollection.updateOne(
+      { username: user },
+      { $set: { quizList } }
+    );
+
+    res.status(200).json({ message: 'Quiz deleted successfully' });
+  } catch (error) {
+    console.log('Error deleting quiz:', error);
+    res.status(500).json({ error: 'Failed to delete the quiz' });
+  }
+});
     // Server success or error
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);

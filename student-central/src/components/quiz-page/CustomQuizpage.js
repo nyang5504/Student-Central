@@ -44,8 +44,7 @@ const QuizForm = () => {
       copyAllQuizzes[quizName] = questions;
       setAllQuizzes(copyAllQuizzes);
 
-      // console.log('QuizInfo', quizInfo);
-      // console.log('Quiz Data:', quizData);
+      
   
       // Resets the form
       setQuizName('');
@@ -76,25 +75,9 @@ const QuizForm = () => {
         setMounted(true);
       }
       
+      
     }, [allQuizzes])
 
-    useEffect(() => {
-      const getQuizzes = () => {
-        try{
-          return fetch('http://localhost:4000/api/quiz/my-quizzes', {
-              method:'GET',
-              credentials: 'include'
-          })
-          .then(res => res.json())
-          .then(data => setAllQuizzes(data));
-        } catch (error) {
-            console.log("error getQuizzes", error);
-        }
-      }
-    
-      getQuizzes();
-    }, [])
-  
     return (
       <div className="customQuizpage">
         <div className="createQuizTitle">

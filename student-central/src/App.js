@@ -12,7 +12,7 @@ import TodoPage from './components/todo-page/TodoPage';
 import Footer from './components/Footer';
 import QuizHomePage from './components/quiz-page/QuizHomepage';
 import CustomQuizPage from './components/quiz-page/CustomQuizpage';
-import StartQuizPage from './components/quiz-page/StartQuizpage';
+import SavedQuizzes from './components/quiz-page/SavedQuizzes';
 import PendingQuizPage from './components/quiz-page/PendingQuizpage';
 
 const App = () => {
@@ -29,7 +29,7 @@ const App = () => {
             <Route path='/list' element={<TodoPage />} />
             <Route path='/quiz' element={<QuizHomePage />} />
             <Route path='/customQuiz' element={<CustomQuizPage />} />
-            <Route path='/startQuiz' element={<StartQuizPage />} />
+            <Route path='/savedQuiz' element={<SavedQuizzes />} />
             <Route path='/pendingQuiz' element={<PendingQuizPage />} />
         </Routes>
         </div>

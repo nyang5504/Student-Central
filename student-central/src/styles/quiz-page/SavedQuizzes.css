@@ -1,5 +1,36 @@
-.savedQuizzes-container{
+.saved-quizzes {
     display: flex;
-    flex-wrap: wrap;
-    width:75%;
-}
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .saved-quizzes h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .saved-quizzes ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .saved-quizzes li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+  }
+  
+  .saved-quizzes li button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
