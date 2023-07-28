@@ -38,6 +38,7 @@ MongoClient.connect(uri, options)
     const userCollection = db.collection('users');
     const collection = db.collection('calendars');
     const todoCollection = db.collection('todolist');
+    const quizCollection = db.collection('quizzes');
 
     // Endpoint for registration
     app.post('/api/register', async (req, res) => {
@@ -299,12 +300,66 @@ MongoClient.connect(uri, options)
     }
   })
 
-  // app.post('/api/schedule/save-notes', async (req, res) => {
+  app.post('/api/quiz/save-quiz', async (req, res) => {
+    const body = req.body;
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ error: 'Token doesn not exist' });
+    }
+
+    const { username } = jwt.verify(token, key);
+    const user = await userCollection.findOne({ username });
+    console.log(user);
     
-  // })
-  // app.get('/api/schedule/my-notes', async (req, res) => {
+    try{
+      const hasfolder = await quizCollection.findOne(
+        {username: user}
+      );
+      if(hasfolder){
+        await quizCollection.updateOne(hasfolder,
+          { $set: {quizList: body}
+        });
+      }
+      else{
+        await quizCollection.insertOne({
+          username: user,
+          quizList: body
+        });
+      }
+      
+    } catch (error) {
+      res.status(500).json({ error: 'failed to save correctly' });
+    }
+  })
+  
+  app.get('/api/quiz/my-quizzes', async (req, res) => {
+    const token = req.cookies.token;
+    console.log("token",token);
+    if (!token) {
+      return res.status(401).json({ error: 'Token doesn not exist' });
+    }
+
+    const { username } = jwt.verify(token, key);
+    const user = await userCollection.findOne({ username });
+    console.log(user);
     
-  // })
+    try{
+      //find events
+      const my_quizzes = await quizCollection.findOne({username: user});
+      if(my_quizzes){
+        console.log('myfolders: ', my_quizzes);
+        res.json(my_quizzes.quizList);
+      }
+      else{
+        console.log("returned no quizzes");
+        res.json({});
+      }
+      
+    } catch(error){
+      console.log("ERROR my-quizzes", error);
+      res.status(500).json({ error: "get quizzes error" });
+    }
+  })
 
 
     // Server success or error
