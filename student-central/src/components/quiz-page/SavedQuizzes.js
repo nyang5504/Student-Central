@@ -55,7 +55,7 @@ const SavedQuizzes = () => {
             <li key={quizName}>
               <span>{quizName}</span>
               {/*Edit quiz button which redirects user to edit quiz page for that quiz */}
-              <Link to={`/edit-quiz/${quizName}`}>Edit</Link>
+              <Link to={`edit-quiz/${quizName}`}>Edit</Link>
               <button onClick={() => handleDeleteQuiz(quizName)}>Delete</button>
             </li>
           );

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/NavBar.css';
+import { NavLink } from 'react-router-dom';
 import profileIcon from '../assets/Ellipse 6.png';
 
 const Navigation = () => {
@@ -7,22 +8,32 @@ const Navigation = () => {
     <div className='entire-navbar'>
     <nav className="navigation">
       <div className="container">
-        <a href="/" className="logo">
-          Student Central
-        </a>
+        <NavLink to="/" className="logo">Student Central</NavLink>
         <div className="links">
-          <a href="/schedule" className="link">
-            Schedule
-          </a>
-          <a href="/list" className="link">
-            To-Do List
-          </a>
-          <a href="/quiz" className="link">
-            Quiz
-          </a>
-          <a href="/profile" className="link">
-            Profile
-          </a>
+          <NavLink
+            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}}
+            to="/schedule" 
+            className="link">
+              Schedule
+          </NavLink>
+          <NavLink 
+            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
+            to="/list" 
+            className="link">
+              To-Do List
+          </NavLink>
+          <NavLink 
+            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
+            to="/quiz" 
+            className="link">
+              Quiz
+          </NavLink>
+          <NavLink 
+            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
+            to="/profile" 
+            className="link">
+              Profile
+          </NavLink>
             <div className="profile-icon-">
               <img src={profileIcon} alt="Profile" className="profile-icon" />
             </div>

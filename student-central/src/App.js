@@ -12,8 +12,10 @@ import TodoPage from './components/todo-page/TodoPage';
 import Footer from './components/Footer';
 import QuizHomePage from './components/quiz-page/QuizHomepage';
 import CustomQuizPage from './components/quiz-page/CustomQuizpage';
-import SavedQuizzes from './components/quiz-page/SavedQuizzes';
 import EditQuiz from './components/quiz-page/EditQuiz';
+import StartQuizpage from './components/quiz-page/StartQuizpage';
+import PendingQuizPage from './components/quiz-page/PendingQuizpage';
+
 
 const App = () => {
   return (
@@ -27,10 +29,14 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/schedule" element={<SchedulePage />} />
           <Route path='/list' element={<TodoPage />} />
-          <Route path='/quiz' element={<QuizHomePage />} />
-          <Route path='/customQuiz' element={<CustomQuizPage />} />
-          <Route path='/savedQuiz' element={<SavedQuizzes />} />
-          <Route path="/edit-quiz/:quizName" element={<EditQuiz />} />
+
+          <Route path='/quiz'>
+            <Route index element={<QuizHomePage />} />
+            <Route path='custom' element={<CustomQuizPage />} />
+            <Route path='start/:quizName' element={<StartQuizpage />} />
+            <Route path='pending' element={<PendingQuizPage />} />
+            <Route path="edit-quiz/:quizName" element={<EditQuiz />} />
+          </Route>
         </Routes>
       </div>
       <Footer />
