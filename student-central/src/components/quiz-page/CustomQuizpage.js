@@ -6,7 +6,6 @@ const QuizForm = () => {
     const [questions, setQuestions] = useState([{ term: '', definition: '' }]);
     const [allQuizzes, setAllQuizzes] = useState({});
 
-    console.log(allQuizzes);
     const [mounted, setMounted] = useState(false);
   
     // Updates the state when changes are made in the form
@@ -22,7 +21,7 @@ const QuizForm = () => {
       setQuestions([...questions, { term: '', definition: '' }]);
     };
   
-    //CHanges index and updates state
+    // Changes index, removes question from array , and updates state
     const handleRemoveQuestion = (index) => {
       const updatedQuestions = [...questions];
       updatedQuestions.splice(index, 1);
@@ -36,21 +35,15 @@ const QuizForm = () => {
         alert('Please provide a quiz name and fill in all terms and definitions.');
         return;
       }
-  
-      // Save the quiz data 
-      // const quizData = { name: quizName, questions };
-
       const copyAllQuizzes = {...allQuizzes};
       copyAllQuizzes[quizName] = questions;
       setAllQuizzes(copyAllQuizzes);
-
-      
-  
       // Resets the form
       setQuizName('');
       setQuestions([{ term: '', definition: '' }]);
     };
 
+    // Saves quiz in database
     useEffect(() => {
       const saveQuiz = () => {
         try{
@@ -65,7 +58,6 @@ const QuizForm = () => {
         } catch (error) {
             console.log("error saveQuiz", error);
         }
-    
       }
       if(mounted){
         saveQuiz();
@@ -73,10 +65,28 @@ const QuizForm = () => {
       //if mounting for the first time, dont save
       else{
         setMounted(true);
-      }
-      
-      
+      }    
     }, [allQuizzes])
+
+    // Retrieves quizzes from database
+    useEffect(() => {
+      const getQuizzes = async () => {
+        try {
+          const response = await fetch('http://localhost:4000/api/quiz/my-quizzes', {
+            method: 'GET',
+            credentials: 'include'
+          });
+          if (!response.ok) {
+            throw new Error('Failed to fetch quizzes.');
+          }
+          const data = await response.json();
+          setAllQuizzes(data);
+        } catch (error) {
+          console.log('Error getting quizzes:', error);
+        }
+      }; 
+      getQuizzes();
+    }, []);
 
     return (
       <div className="customQuizpage">

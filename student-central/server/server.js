@@ -1,7 +1,7 @@
 require('dotenv').config()
-const username = process.env.USER;
-const password = process.env.PASSWORD;
-const key = process.env.KEY;
+const username = 'User1';
+const password = '98k4dV1crHfXzpg3';
+const key = '7051477974';
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
@@ -367,49 +367,113 @@ app.delete('/api/quiz/delete-quiz/:quizName', async (req, res) => {
   if (!token) {
     return res.status(401).json({ error: 'Token does not exist' });
   }
-
   const { username } = jwt.verify(token, key);
   const quizName = req.params.quizName;
   const user = await userCollection.findOne({ username });
-
   try {
     // Find the document for the user
     //console.log('username:', username);
     const userDocument = await quizCollection.findOne({ username: user });
     //console.log('userDocument:', userDocument);
-
     if (!userDocument) {
       return res.status(404).json({ error: 'User not found' });
     }
-
     // Find the quiz list for the user
     const quizList = userDocument.quizList; // Access the quizList directly
     //console.log('Quiz List:', quizList);
-
     if (!quizList) {
       return res.status(404).json({ error: 'Quiz list not found for the user' });
     }
-
     // Check if the quiz exists in the quizList
     if (!(quizName in quizList)) {
       return res.status(404).json({ error: 'Quiz not found' });
     }
-
     // Remove the quiz from the quizList object
     delete quizList[quizName];
-
     // Update the user document with the modified quizList
     await quizCollection.updateOne(
       { username: user },
       { $set: { quizList } }
     );
-
     res.status(200).json({ message: 'Quiz deleted successfully' });
   } catch (error) {
     console.log('Error deleting quiz:', error);
     res.status(500).json({ error: 'Failed to delete the quiz' });
   }
 });
+
+// Edit Quiz Endpoint
+app.put('/api/quiz/edit-quiz/:quizName', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ error: 'Token does not exist' });
+  }
+
+  const { username } = jwt.verify(token, key);
+  const quizName = req.params.quizName;
+  try {
+    // Find the user document using the username
+    const userDocument = await quizCollection.findOne({ 'username.username': username });
+    if (!userDocument) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Find the quiz data based on the quizName
+    const quizData = userDocument.quizList[quizName];
+    if (!quizData) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+
+    // Update the quiz data with the changes made by the user in req.body
+    const updatedQuizData = req.body; // The updated quiz data from the request
+
+    // Update the quiz data in the userDocument.quizList under the correct quizName
+    userDocument.quizList[quizName] = updatedQuizData.questions;
+
+    // Update the user document with the modified quizList
+    await quizCollection.updateOne(
+      { _id: userDocument._id }, // Use the _id field for updating
+      { $set: { quizList: userDocument.quizList } }
+    );
+
+    // Fetch the updated user document again for debugging
+    const updatedUserDocument = await quizCollection.findOne({ 'username.username': username });
+    console.log('Updated User Document:', updatedUserDocument.quizList);
+
+    res.status(200).json({ message: 'Quiz updated successfully' });
+  } catch (error) {
+    console.log('Error updating quiz:', error);
+    res.status(500).json({ error: 'Failed to update the quiz' });
+  }
+});
+
+app.get('/api/quiz/get-one-quiz/:quizName', async (req, res) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.status(401).json({ error: 'Token does not exist' });
+  }
+  const { username } = jwt.verify(token, key);
+  const quizName = req.params.quizName;
+  const user = await userCollection.findOne({ username });
+  try {
+    // Find the document for the user
+    const userDocument = await quizCollection.findOne({ username: user });
+    if (!userDocument) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    // Find the quiz from the quiz list based on the quizName
+    const quizData = userDocument.quizList[quizName];
+    if (!quizData) {
+      return res.status(404).json({ error: 'Quiz not found' });
+    }
+    res.status(200).json(quizData);
+  } catch (error) {
+    console.log('Error fetching quiz data:', error);
+    res.status(500).json({ error: 'Failed to fetch quiz data' });
+  }
+});
+
+
     // Server success or error
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);

@@ -13,30 +13,29 @@ import Footer from './components/Footer';
 import QuizHomePage from './components/quiz-page/QuizHomepage';
 import CustomQuizPage from './components/quiz-page/CustomQuizpage';
 import SavedQuizzes from './components/quiz-page/SavedQuizzes';
-import PendingQuizPage from './components/quiz-page/PendingQuizpage';
+import EditQuiz from './components/quiz-page/EditQuiz';
 
 const App = () => {
-    return (
-        <div className='overall-container'>
-        <NavBar />
-        <div className='center'>
+  return (
+    <div className='overall-container'>
+      <NavBar />
+      <div className='center'>
         <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/schedule" element={<SchedulePage />} />
-            <Route path='/list' element={<TodoPage />} />
-            <Route path='/quiz' element={<QuizHomePage />} />
-            <Route path='/customQuiz' element={<CustomQuizPage />} />
-            <Route path='/savedQuiz' element={<SavedQuizzes />} />
-            <Route path='/pendingQuiz' element={<PendingQuizPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/schedule" element={<SchedulePage />} />
+          <Route path='/list' element={<TodoPage />} />
+          <Route path='/quiz' element={<QuizHomePage />} />
+          <Route path='/customQuiz' element={<CustomQuizPage />} />
+          <Route path='/savedQuiz' element={<SavedQuizzes />} />
+          <Route path="/edit-quiz/:quizName" element={<EditQuiz />} />
         </Routes>
-        </div>
-        <Footer/>
-        </div>
-        
-    );
+      </div>
+      <Footer />
+    </div>
+  );
 };
 
 export default App;
