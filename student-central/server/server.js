@@ -371,8 +371,7 @@ app.delete('/api/quiz/delete-quiz/:quizName', async (req, res) => {
   const quizName = req.params.quizName;
   const user = await userCollection.findOne({ username });
   try {
-    // Find the document for the user
-    //console.log('username:', username);
+    // Find the user's quizzes
     const userDocument = await quizCollection.findOne({ username: user });
     //console.log('userDocument:', userDocument);
     if (!userDocument) {
@@ -417,29 +416,20 @@ app.put('/api/quiz/edit-quiz/:quizName', async (req, res) => {
     if (!userDocument) {
       return res.status(404).json({ error: 'User not found' });
     }
-
     // Find the quiz data based on the quizName
     const quizData = userDocument.quizList[quizName];
     if (!quizData) {
       return res.status(404).json({ error: 'Quiz not found' });
     }
-
     // Update the quiz data with the changes made by the user in req.body
-    const updatedQuizData = req.body; // The updated quiz data from the request
-
+    const updatedQuizData = req.body;
     // Update the quiz data in the userDocument.quizList under the correct quizName
     userDocument.quizList[quizName] = updatedQuizData.questions;
-
     // Update the user document with the modified quizList
     await quizCollection.updateOne(
-      { _id: userDocument._id }, // Use the _id field for updating
+      { _id: userDocument._id },
       { $set: { quizList: userDocument.quizList } }
     );
-
-    // Fetch the updated user document again for debugging
-    const updatedUserDocument = await quizCollection.findOne({ 'username.username': username });
-    console.log('Updated User Document:', updatedUserDocument.quizList);
-
     res.status(200).json({ message: 'Quiz updated successfully' });
   } catch (error) {
     console.log('Error updating quiz:', error);
@@ -447,6 +437,7 @@ app.put('/api/quiz/edit-quiz/:quizName', async (req, res) => {
   }
 });
 
+// Endpoint for retrieving a single quiz from a user
 app.get('/api/quiz/get-one-quiz/:quizName', async (req, res) => {
   const token = req.cookies.token;
   if (!token) {
