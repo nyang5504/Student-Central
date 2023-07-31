@@ -39,6 +39,7 @@ const EditQuiz = () => {
                     })),
                 };
                 // Update the state with the retrieved data
+                // console.log(quizData);
                 setQuizData(quizData);
             } catch (error) {
                 console.log('Error fetching quiz data.', error);

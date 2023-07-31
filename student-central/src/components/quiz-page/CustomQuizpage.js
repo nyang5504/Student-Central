@@ -41,6 +41,7 @@ const QuizForm = () => {
       // Resets the form
       setQuizName('');
       setQuestions([{ term: '', definition: '' }]);
+      window.location.href = '/quiz'
     };
 
     // Saves quiz in database
@@ -124,12 +125,14 @@ const QuizForm = () => {
             )}
           </div>
         ))}
-        <button type="button" onClick={handleAddQuestion}>
-          Add Question
-        </button>
-        <button type="button" onClick={handleSaveQuiz}>
-          Save Quiz
-        </button>
+        <div className='buttons-container'>
+          <button type="button" onClick={handleAddQuestion}>
+            Add Question
+          </button>
+          <button type="button" onClick={handleSaveQuiz}>
+            Save Quiz
+          </button>
+        </div>
       </div>
     );
   };

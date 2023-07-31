@@ -185,14 +185,14 @@ MongoClient.connect(uri, options)
     //console.log(user);
     
     try{
-      const hasEvents = await collection.findOne({username: user});
+      const hasEvents = await collection.findOne({username: user.username});
       if(hasEvents){
         await collection.updateOne(hasEvents,
           { $set: {eventsList: events}});
       }
       else{
         await collection.insertOne({
-          username: user,
+          username: user.username,
           eventsList: events});
       }
       
@@ -220,7 +220,7 @@ MongoClient.connect(uri, options)
     
     try{
       //find events
-      const my_events = await collection.findOne({username: user});
+      const my_events = await collection.findOne({username: user.username});
       if(my_events){
         // console.log('myevents: ', my_events);
         res.json(my_events.eventsList);
@@ -252,7 +252,7 @@ MongoClient.connect(uri, options)
     
     try{
       const hasfolder = await todoCollection.findOne(
-        {username: user},
+        {username: user.username},
         );
       if(hasfolder){
         await todoCollection.updateOne(hasfolder,
@@ -261,7 +261,7 @@ MongoClient.connect(uri, options)
       }
       else{
         await todoCollection.insertOne({
-          username: user,
+          username: user.username,
           folderNotes: body
         });
       }
@@ -284,7 +284,7 @@ MongoClient.connect(uri, options)
     
     try{
       //find events
-      const my_folders = await todoCollection.findOne({username: user});
+      const my_folders = await todoCollection.findOne({username: user.username});
       if(my_folders){
         //console.log('myfolders: ', my_folders);
         res.json(my_folders.folderNotes);
@@ -313,7 +313,7 @@ MongoClient.connect(uri, options)
     
     try{
       const hasfolder = await quizCollection.findOne(
-        {username: user}
+        {username: user.username}
       );
       if(hasfolder){
         await quizCollection.updateOne(hasfolder,
@@ -322,7 +322,7 @@ MongoClient.connect(uri, options)
       }
       else{
         await quizCollection.insertOne({
-          username: user,
+          username: user.username,
           quizList: body
         });
       }
@@ -345,7 +345,7 @@ MongoClient.connect(uri, options)
     
     try{
       //find events
-      const my_quizzes = await quizCollection.findOne({username: user});
+      const my_quizzes = await quizCollection.findOne({username: user.username});
       if(my_quizzes){
         //console.log('myfolders: ', my_quizzes);
         res.json(my_quizzes.quizList);
@@ -372,7 +372,7 @@ app.delete('/api/quiz/delete-quiz/:quizName', async (req, res) => {
   const user = await userCollection.findOne({ username });
   try {
     // Find the user's quizzes
-    const userDocument = await quizCollection.findOne({ username: user });
+    const userDocument = await quizCollection.findOne({ username: user.username });
     //console.log('userDocument:', userDocument);
     if (!userDocument) {
       return res.status(404).json({ error: 'User not found' });
@@ -391,7 +391,7 @@ app.delete('/api/quiz/delete-quiz/:quizName', async (req, res) => {
     delete quizList[quizName];
     // Update the user document with the modified quizList
     await quizCollection.updateOne(
-      { username: user },
+      { username: user.username },
       { $set: { quizList } }
     );
     res.status(200).json({ message: 'Quiz deleted successfully' });
@@ -412,7 +412,7 @@ app.put('/api/quiz/edit-quiz/:quizName', async (req, res) => {
   const quizName = req.params.quizName;
   try {
     // Find the user document using the username
-    const userDocument = await quizCollection.findOne({ 'username.username': username });
+    const userDocument = await quizCollection.findOne({ 'username': username });
     if (!userDocument) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -448,7 +448,7 @@ app.get('/api/quiz/get-one-quiz/:quizName', async (req, res) => {
   const user = await userCollection.findOne({ username });
   try {
     // Find the document for the user
-    const userDocument = await quizCollection.findOne({ username: user });
+    const userDocument = await quizCollection.findOne({ username: user.username });
     if (!userDocument) {
       return res.status(404).json({ error: 'User not found' });
     }

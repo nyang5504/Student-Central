@@ -3,8 +3,12 @@
     flex-wrap: wrap;
     min-height: 100vh;
     margin-top: 5vh;
+    width: 90%;
 }
 
+.customQuizpage{
+    min-height: 92vh;
+}
 .left-padding{
     width: 20vw;
 }
@@ -15,3 +19,10 @@
     padding-bottom: 2vh;
 }
 
+.question-container{
+    margin-left: 5%;
+}
+
+.buttons-container{
+    margin-left: 5%;
+}
