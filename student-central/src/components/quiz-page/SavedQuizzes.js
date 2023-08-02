@@ -49,13 +49,15 @@ const SavedQuizzes = () => {
     <div className="saved-quizzes">
       <h2>Saved Quizzes</h2>
       <ul>
-        {/*Maps the quizzes and each quiz can be deleted now*/}
+        {/* Maps the quizzes and each quiz can be started or deleted now */}
         {Object.keys(allQuizzes).map((quizName) => {
           return (
             <li key={quizName}>
               <span>{quizName}</span>
-              {/*Edit quiz button which redirects user to edit quiz page for that quiz */}
-              <Link to={`edit-quiz/${quizName}`}>Edit</Link>
+              {/* Start quiz button which redirects user to start quiz page for that quiz */}
+              <Link to={`/start-quiz/${quizName}`}>Start</Link>
+              {/* Edit quiz button which redirects user to edit quiz page for that quiz */}
+              <Link to={`/edit-quiz/${quizName}`}>Edit</Link>
               <button onClick={() => handleDeleteQuiz(quizName)}>Delete</button>
             </li>
           );

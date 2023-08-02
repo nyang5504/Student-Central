@@ -14,7 +14,7 @@ import QuizHomePage from './components/quiz-page/QuizHomepage';
 import CustomQuizPage from './components/quiz-page/CustomQuizpage';
 import EditQuiz from './components/quiz-page/EditQuiz';
 import StartQuizpage from './components/quiz-page/StartQuizpage';
-import PendingQuizPage from './components/quiz-page/PendingQuizpage';
+
 
 
 const App = () => {
@@ -33,8 +33,7 @@ const App = () => {
           <Route path='/quiz'>
             <Route index element={<QuizHomePage />} />
             <Route path='custom' element={<CustomQuizPage />} />
-            <Route path='start/:quizName' element={<StartQuizpage />} />
-            <Route path='pending' element={<PendingQuizPage />} />
+            <Route path='start-quiz/:quizName' element={<StartQuizpage />} />
             <Route path="edit-quiz/:quizName" element={<EditQuiz />} />
           </Route>
         </Routes>
