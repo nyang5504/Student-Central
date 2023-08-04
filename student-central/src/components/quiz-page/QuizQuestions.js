@@ -7,9 +7,11 @@ import MultipleChoice from './MultipleChoice'
 import WrittenChoice from './WrittenChoice'
 
 const QuizQuestions = () => {
+
     const params = new URLSearchParams(useLocation().search);
     const { quizName } = useParams();
-    const quizType = params.get('quizType');
+    const quizType = params.get('type');
+    console.log("quiztype begin",quizType);
     const [quizData, setQuizData] = useState({
         quizName: '',
         questions: [
@@ -19,34 +21,85 @@ const QuizQuestions = () => {
             },
         ],
     });
-    const alldefinitions = quizData.questions.map((question) => question.definition);
-    const randomType = () => {
-        let randomNum = Math.random() * 10 + 1;
-        if (randomNum % 2 == 0) {return "multipleChoice"}
-        else {return "written"}
-    }
-
     const [questionType, setQuestionType] = useState("");
     const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
+    const [questionOrder, setQuestionOrder] = useState([]);
     
-    const quizSetup = () => {
+    const [quizQuestionsList, setQuizQuestionsList] = useState([]);
+
+    // if(quizQuestionsList.length != 0){
+    //     console.log("quizQuestionsList", quizQuestionsList[0]);
+    // }
+
+    const getRandomType = () => {
+        if(quizType == "both"){
+            let randomNum = Math.floor(Math.random() * 10) + 1;
+            if (randomNum % 2 == 0) {return "multipleChoice"}
+            else {return "written"}
+        }
+        else{
+            return quizType;
+        }
+    }
+
+    const createQuestionOrder = (defs) => {
         const questionOrder = [];
-        for(let i = 0; i < alldefinitions.length; i++){
+        for(let i = 0; i < defs.length; i++){
             questionOrder.push(i);
         }
-        shuffleArr(quizSetup);
+        shuffleArr(questionOrder);
+        // questionOrder.shuffle();
         return questionOrder;
     }
 
+    const createMCChoices = (answer, defs) => {
+        let randomNum = Math.random() * 4;
+        const arrMC = [];
+        for(let i = 0; i < 4; i++){
+            if(i != randomNum){
+                let randomDefIdx = Math.floor(Math.random() * defs.length);
+                arrMC.push(defs[randomDefIdx]);
+            }
+            else{
+                arrMC.push(answer);
+            }
+        }
+        return arrMC;
+    }
+
+    const quizSetup = (quizdata, defs) => {
+        const qORder = createQuestionOrder(defs);
+        console.log("qOrder",qORder);
+        setQuestionOrder(qORder);
+        const entireQuiz = [];
+        for(let i = 0; i < qORder.length; i++){
+            const questionInfo = {};
+            //set type
+            questionInfo.questionType = getRandomType();
+            questionInfo.term = quizdata.questions[qORder[i]].term;
+            const ans = quizdata.questions[qORder[i]].definition;
+            console.log("questionType", questionInfo.questionType);
+            if(questionInfo.questionType === "multipleChoice"){
+                questionInfo.choices = createMCChoices(ans, defs);
+            }
+            questionInfo.answer = ans;
+
+            console.log("questionInfo", questionInfo);
+            entireQuiz.push(questionInfo);
+            console.log("entireQuiz", entireQuiz);
+            
+        }
+        setQuizQuestionsList(entireQuiz);
+    }
+
     const shuffleArr = (arr) => {
-        for(let i = arr.length-1; i > 0; i++){
+        for(let i = arr.length-1; i > 0; i--){
             let numToSwap = Math.floor(Math.random() * (i+1));
             let temp = arr[i];
             arr[i] = arr[numToSwap];
             arr[numToSwap] = temp;
         }
     }
-    // const [quizOrder, setQuizOrder] = useState(quizSetup());
 
     useEffect(() => {
         const fetchQuizData = async () => {
@@ -70,22 +123,30 @@ const QuizQuestions = () => {
                 };
                 // Update the state with the retrieved data
                 console.log("quizData", quizData);
+                
                 setQuizData(quizData);
             } catch (error) {
                 console.log('Error fetching quiz data.', error);
             }
         };
         fetchQuizData();
-
-        const questionOrder = quizSetup();
-        
-        // const initialQuestionType = () => {
-        //     if (quizType == "multipleChoice") {
-
-        //     }
-        // }
     },[])
+        
+    useEffect(() => {
+        const alldefinitions = quizData.questions.map((question) => question.definition);
+        console.log("alldefinitions", alldefinitions);
+        quizSetup(quizData, alldefinitions);
+    }, [quizData])
 
+    // useEffect(() => {
+    //     console.log("quizQuestionsList",quizQuestionsList.length);
+    // }, [quizQuestionsList])
+    
+    // useEffect(() => {
+    //     if(quizQuestionsList.length != 0){
+    //         console.log(quizQuestionsList);
+    //     }
+    // },[quizQuestionsList])
     // useEffect(() => {
 
     // }, [currentQuestionCount])
@@ -93,7 +154,15 @@ const QuizQuestions = () => {
     return (
         <div className="QuizQuestions-container">
             {/* <QuizSideBar/> */}
-            {questionType == "multipleChoice" ? <MultipleChoice /> : <WrittenChoice />}
+            {(quizQuestionsList.length === 0) ? <div>Loading</div> :
+            (quizQuestionsList[currentQuestionCount].questionType == "multipleChoice") ? 
+            <MultipleChoice 
+                question={quizQuestionsList[currentQuestionCount]} 
+                setCurrentQuestionCount={setCurrentQuestionCount}/> : 
+            <WrittenChoice 
+                question={quizQuestionsList[currentQuestionCount]} 
+                setCurrentQuestionCount={setCurrentQuestionCount}/>
+            }
 
 
         </div>
