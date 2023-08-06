@@ -15,6 +15,7 @@ import CustomQuizPage from './components/quiz-page/CustomQuizpage';
 import EditQuiz from './components/quiz-page/EditQuiz';
 import StartQuizpage from './components/quiz-page/StartQuizpage';
 import QuizQuestions from './components/quiz-page/QuizQuestions';
+import QuizSearch from './components/quiz-page/QuizSearch';
 
 
 
@@ -37,6 +38,7 @@ const App = () => {
             <Route path='start-quiz/:quizName' element={<StartQuizpage />} />
             <Route path="edit-quiz/:quizName" element={<EditQuiz />} />
             <Route path=":quizName/questions" element={<QuizQuestions/>} />
+            <Route path="search" element={<QuizSearch />} />
           </Route>
         </Routes>
       </div>

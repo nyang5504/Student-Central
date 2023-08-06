@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import '../../styles/quiz-page/QuizQuestions.css';
 // import "../components/SavedQuizCard"
 // import QuizSideBar from './QuizSidebar';
@@ -9,65 +9,78 @@ import QuizResults from './QuizResults'
 import QuizSideBar from './QuizSidebar';
 
 const QuizQuestions = () => {
-  const navigate = useNavigate();
 
-    const params = new URLSearchParams(useLocation().search);
-    const { quizName } = useParams();
-    const quizType = params.get('type');
-    console.log("quiztype begin",quizType);
-    const [quizData, setQuizData] = useState({
-        quizName: '',
-        questions: [
-            {
-                term: '',
-                definition: '',
-            },
-        ],
-    });
-    const [questionType, setQuestionType] = useState("");
-    const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
-    const [questionOrder, setQuestionOrder] = useState([]);
-    
-    const [quizQuestionsList, setQuizQuestionsList] = useState([]);
-    const [userAnswers, setUserAnswers] = useState({});
-    const [allUserAns, setAllUserAns] = useState([]);
-    const [correctCount, setCorrectCount] = useState(0);
+  //get query param
+  const params = new URLSearchParams(useLocation().search);
+  const quizType = params.get('type');
+  //get quiz name from param
+  const { quizName } = useParams();
+  
+  const [quizData, setQuizData] = useState({
+    quizName: '',
+    questions: [
+      {
+        term: '',
+        definition: '',
+      },
+    ],
+  });
+  const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
+  const [quizQuestionsList, setQuizQuestionsList] = useState([]);
+  const [allUserAns, setAllUserAns] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
-    const [submitted, setSubmitted] = useState(false);
-
-  // if(quizQuestionsList.length != 0){
-  //     console.log("quizQuestionsList", quizQuestionsList[0]);
-  // }
-
+  //helper function that returns a random type, either written or multiple choice
   const getRandomType = () => {
+    //if quiz type was both, then we choose a type randomly
     if (quizType == "both") {
       let randomNum = Math.floor(Math.random() * 10) + 1;
       if (randomNum % 2 == 0) { return "multipleChoice" }
       else { return "written" }
     }
     else {
+      //if quiz type was not both, we use that quiz type for the question type
       return quizType;
     }
   }
 
+  //helper function to shuffle the order of questions, so that each time user takes quiz, the order is different
   const createQuestionOrder = (defs) => {
     const questionOrder = [];
     for (let i = 0; i < defs.length; i++) {
       questionOrder.push(i);
     }
     shuffleArr(questionOrder);
-    // questionOrder.shuffle();
     return questionOrder;
   }
 
+  //shuffles any array you give it
+  const shuffleArr = (arr) => {
+    //starting from the last element, choose an random element before it two swap with
+    for (let i = arr.length - 1; i > 0; i--) {
+      let numToSwap = Math.floor(Math.random() * (i + 1));
+      let temp = arr[i];
+      arr[i] = arr[numToSwap];
+      arr[numToSwap] = temp;
+    }
+  }
+
+  //given an answer and a list of all definitions within the quiz, create a 4 element array containing choices for a single question
   const createMCChoices = (answer, defs) => {
-    let randomNum = Math.floor(Math.random() * 4);
-    const defsCopy = defs.filter(def => def != answer);
+    //create a copy of the list of defintions, excluding the answer
+    const firstIdx = defs.findIndex(x => x === answer);
+    const defsCopy = defs.filter((def, index) => index != firstIdx);
+    //empty array to store choices
     const arrMC = [];
+    //get a random number to decide where the answer will appear within the array of choices
+    let randomNum = Math.floor(Math.random() * 4);
+    //loop 4 times to fill up arrMC
     for (let i = 0; i < 4; i++) {
+      //if this is not the index where the answer will be, randomly select a definition from the list of all definitions and place it in arrMC.
       if (i != randomNum) {
         let randomDefIdx = Math.floor(Math.random() * defsCopy.length);
         arrMC.push(defsCopy[randomDefIdx]);
+        //remove chosen definition from the definitions array so it doesn't get chosen again
         defsCopy.splice(randomDefIdx, 1);
       }
       else {
@@ -78,29 +91,31 @@ const QuizQuestions = () => {
   }
 
   const quizSetup = (quizdata, defs) => {
+    //first get the question ordering
     const qORder = createQuestionOrder(defs);
-    console.log("qOrder", qORder);
-    setQuestionOrder(qORder);
     const entireQuiz = [];
     for (let i = 0; i < qORder.length; i++) {
       const questionInfo = {};
-      //set type
       questionInfo.questionType = getRandomType();
       questionInfo.term = quizdata.questions[qORder[i]].term;
       const ans = quizdata.questions[qORder[i]].definition;
-      console.log("questionType", questionInfo.questionType);
+      // console.log("questionType", questionInfo.questionType);
+
+      //the object will only have choices if it is a multiple choice question
       if (questionInfo.questionType === "multipleChoice") {
         questionInfo.choices = createMCChoices(ans, defs);
       }
       questionInfo.answer = ans;
 
-      console.log("questionInfo", questionInfo);
+      // console.log("questionInfo", questionInfo);
       entireQuiz.push(questionInfo);
-      console.log("entireQuiz", entireQuiz);
+      // console.log("entireQuiz", entireQuiz);
 
     }
+    //update useState variable
     setQuizQuestionsList(entireQuiz);
 
+    //this is used to track user answers. It starts with no user answer
     const emptyAns = [];
     for (let i = 0; i < entireQuiz.length; i++) {
       emptyAns.push("");
@@ -108,15 +123,7 @@ const QuizQuestions = () => {
     setAllUserAns(emptyAns);
   }
 
-  const shuffleArr = (arr) => {
-    for (let i = arr.length - 1; i > 0; i--) {
-      let numToSwap = Math.floor(Math.random() * (i + 1));
-      let temp = arr[i];
-      arr[i] = arr[numToSwap];
-      arr[numToSwap] = temp;
-    }
-  }
-
+  //useEffect to get quiz data for quiz clicked on earlier
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
@@ -148,87 +155,66 @@ const QuizQuestions = () => {
     fetchQuizData();
   }, [])
 
+  //once quiz data is fetched, we can organize that information to prepare for quiz taking
   useEffect(() => {
     const alldefinitions = quizData.questions.map((question) => question.definition);
     console.log("alldefinitions", alldefinitions);
     quizSetup(quizData, alldefinitions);
   }, [quizData])
 
-  // useEffect(() => {
-  //     console.log("quizQuestionsList",quizQuestionsList.length);
-  // }, [quizQuestionsList])
-
-  // useEffect(() => {
-  //     if(quizQuestionsList.length != 0){
-  //         console.log(quizQuestionsList);
-  //     }
-  // },[quizQuestionsList])
-  // useEffect(() => {
-
-  // }, [currentQuestionCount])
-
-  const handleAnswerChange = (answer) => {
-    setUserAnswers((prevAnswers) => ({
-      ...prevAnswers,
-      [currentQuestionCount]: answer,
-    }));
-  };
-
-  //Save user answer(doesnt work yet) and moves to next question
+  //Save user answer and moves to next question
   const handleNextQuestion = () => {
-    handleAnswerChange(currentQuestionCount, userAnswers);
     setCurrentQuestionCount((prevIndex) => prevIndex + 1);
   };
 
-  //Save user answer(doesnt work yet) and moves to previous question
+  //Save user answer and moves to previous question
   const handlePreviousQuestion = () => {
-    handleAnswerChange(currentQuestionCount, userAnswers);
     setCurrentQuestionCount((prevIndex) => prevIndex - 1);
   };
 
-    return (
-        <div className="QuizQuestions-container">
-          {quizQuestionsList.length === 0 ? (
-            <div>Loading...</div>
-          ) : submitted ? (<QuizResults allUserAns={allUserAns} quizQuestionsList={quizQuestionsList}/>) :
-          (
-            <>
-              <h2>Quiz: {quizData.quizName}</h2>
-              <QuizSideBar allUserAns={allUserAns} setCurrentQuestionCount={setCurrentQuestionCount} currentQuestionCount={currentQuestionCount}/>
-              {quizQuestionsList[currentQuestionCount].questionType === 'multipleChoice' ? (
-                <MultipleChoice
-                  question={quizQuestionsList[currentQuestionCount]}
-                  onAnswerChange={handleAnswerChange}
-                  setAllUserAns={setAllUserAns}
-                  allUserAns={allUserAns}
-                  currentQuestionIndex={currentQuestionCount}
-                />
+  return (
+    <div className="QuizQuestions-container">
+      {/* Buffer for our state variables to get their values before using them. Without this, we would have an error */}
+      {quizQuestionsList.length === 0 ? (
+        <div>Loading...</div>
+      ) : submitted ? (<QuizResults allUserAns={allUserAns} quizQuestionsList={quizQuestionsList} />) :
+        (
+          <>
+            <h2>Quiz: {quizData.quizName}</h2>
+            <QuizSideBar allUserAns={allUserAns} setCurrentQuestionCount={setCurrentQuestionCount} currentQuestionCount={currentQuestionCount} />
+            {quizQuestionsList[currentQuestionCount].questionType === 'multipleChoice' ? (
+              <MultipleChoice
+                question={quizQuestionsList[currentQuestionCount]}
+                setAllUserAns={setAllUserAns}
+                allUserAns={allUserAns}
+                currentQuestionIndex={currentQuestionCount}
+              />
+            ) : (
+              <WrittenChoice
+                question={quizQuestionsList[currentQuestionCount]}
+                currentQuestionIndex={currentQuestionCount}
+                setAllUserAns={setAllUserAns}
+                allUserAns={allUserAns}
+                userAnswer={allUserAns[currentQuestionCount] || ''}
+                setCurrentQuestionCount={setCurrentQuestionCount}
+              />
+            )}
+
+            {/* handles going to previous and next question. If it's the last question, you can submit the quiz */}
+            <div className="question-navigation">
+              <button onClick={handlePreviousQuestion} disabled={currentQuestionCount === 0}>
+                Previous Question
+              </button>
+              {currentQuestionCount === quizQuestionsList.length - 1 ? (
+                <button onClick={() => setSubmitted(true)}>Submit Quiz</button>
               ) : (
-                <WrittenChoice
-                  question={quizQuestionsList[currentQuestionCount]}
-              currentQuestionIndex={currentQuestionCount}
-              onAnswerChange={handleAnswerChange}
-              setAllUserAns={setAllUserAns}
-              allUserAns={allUserAns}
-              userAnswer={allUserAns[currentQuestionCount] || ''}
-              setCurrentQuestionCount={setCurrentQuestionCount}
-                />
+                <button onClick={handleNextQuestion}>Next Question</button>
               )}
-    
-              <div className="question-navigation">
-                <button onClick={handlePreviousQuestion} disabled={currentQuestionCount === 0}>
-                  Previous Question
-                </button>
-                {currentQuestionCount === quizQuestionsList.length - 1 ? (
-                  <button onClick={() => setSubmitted(true)}>Submit Quiz</button>
-                ) : (
-                  <button onClick={handleNextQuestion}>Next Question</button>
-                )}
-              </div>
-            </>
-          )}
-        </div>
-    );
+            </div>
+          </>
+        )}
+    </div>
+  );
 };
 
 export default QuizQuestions;

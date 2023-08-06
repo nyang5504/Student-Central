@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const QuizResults = (props) => {
 
     const navigate = useNavigate();
+    //returns the number of questions answered correctly
     const calcNumCorrect = () =>{
         let correct = 0;
         for(let i = 0; i < props.allUserAns.length; i++){
@@ -13,7 +14,6 @@ const QuizResults = (props) => {
         }
         return correct;
     }
-
 
     return (
         <div className="QuizResults-container">

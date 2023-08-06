@@ -44,7 +44,7 @@ const SavedQuizzes = () => {
       console.log('Error deleting quiz:', error);
     }
   };
-
+  console.log(allQuizzes);
   return (
     <div className="saved-quizzes">
       <h2>Saved Quizzes</h2>

@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 
 const WrittenChoice = (props) => {
-  
-
   const handleInputChange = (e) => {
     const userAns = [...props.allUserAns];
     userAns[props.currentQuestionIndex] = e.target.value;
     props.setAllUserAns(userAns);
     
   };
-
-
 
   return (
     <div className="WrittenChoice-container">

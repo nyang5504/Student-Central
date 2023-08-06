@@ -9,7 +9,8 @@ const QuizSidebar = (props) => {
 
     return (
         <div className="QuizSideBar-container">
-            {props.allUserAns.map((ans, idx) => {return <div onClick={()=>{handleSidebarClick(idx)}} className={'quiz-sidebar-selection' + " " + (ans === "" ? "question-incomplete" : "question-complete") + " " + (props.currentQuestionCount === idx ? "question-selected" : "not-selected")}>Question {idx+1}</div>})}
+            {props.allUserAns.map((ans, idx) => 
+            {return <div onClick={()=>{handleSidebarClick(idx)}} className={'quiz-sidebar-selection' + " " + (ans === "" ? "question-incomplete" : "question-complete") + " " + (props.currentQuestionCount === idx ? "question-selected" : "not-selected")}>Question {idx+1}</div>})}
         </div>
     );
 };
