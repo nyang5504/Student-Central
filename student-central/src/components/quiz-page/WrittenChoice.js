@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
 
 const WrittenChoice = (props) => {
-  const { question, setCurrentQuestionCount } = props;
-  const [userAnswer, setUserAnswer] = useState('');
+  
 
-  const handleInputChange = (event) => {
-    setUserAnswer(event.target.value);
+  const handleInputChange = (e) => {
+    const userAns = [...props.allUserAns];
+    userAns[props.currentQuestionIndex] = e.target.value;
+    props.setAllUserAns(userAns);
+    
   };
 
-  const handleNextQuestion = () => {
-    // Save the user's answer and move to the next question
-    props.onAnswerChange(userAnswer);
-    setCurrentQuestionCount((prevIndex) => prevIndex + 1);
-  };
 
-  const handlePreviousQuestion = () => {
-    setCurrentQuestionCount((prevIndex) => prevIndex - 1);
-  };
 
   return (
     <div className="WrittenChoice-container">
-      <h3>{question.term}</h3>
+      <h3>{props.question.term}</h3>
       <div className="answer-input">
-        <input type="text" value={userAnswer} onChange={handleInputChange} />
+        <input type="text" value={props.userAnswer} onChange={handleInputChange} />
       </div>
       
     </div>
