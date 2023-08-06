@@ -5,31 +5,35 @@ import '../../styles/quiz-page/QuizQuestions.css';
 // import QuizSideBar from './QuizSidebar';
 import MultipleChoice from './MultipleChoice'
 import WrittenChoice from './WrittenChoice'
+import QuizResults from './QuizResults'
+import QuizSideBar from './QuizSidebar';
 
 const QuizQuestions = () => {
   const navigate = useNavigate();
 
-  const params = new URLSearchParams(useLocation().search);
-  const { quizName } = useParams();
-  const quizType = params.get('type');
-  console.log("quiztype begin", quizType);
-  const [quizData, setQuizData] = useState({
-    quizName: '',
-    questions: [
-      {
-        term: '',
-        definition: '',
-      },
-    ],
-  });
-  const [questionType, setQuestionType] = useState("");
-  const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
-  const [questionOrder, setQuestionOrder] = useState([]);
+    const params = new URLSearchParams(useLocation().search);
+    const { quizName } = useParams();
+    const quizType = params.get('type');
+    console.log("quiztype begin",quizType);
+    const [quizData, setQuizData] = useState({
+        quizName: '',
+        questions: [
+            {
+                term: '',
+                definition: '',
+            },
+        ],
+    });
+    const [questionType, setQuestionType] = useState("");
+    const [currentQuestionCount, setCurrentQuestionCount] = useState(0);
+    const [questionOrder, setQuestionOrder] = useState([]);
+    
+    const [quizQuestionsList, setQuizQuestionsList] = useState([]);
+    const [userAnswers, setUserAnswers] = useState({});
+    const [allUserAns, setAllUserAns] = useState([]);
+    const [correctCount, setCorrectCount] = useState(0);
 
-  const [quizQuestionsList, setQuizQuestionsList] = useState([]);
-  const [userAnswers, setUserAnswers] = useState({});
-  const [allUserAns, setAllUserAns] = useState([]);
-  const [correctCount, setCorrectCount] = useState(0);
+    const [submitted, setSubmitted] = useState(false);
 
   // if(quizQuestionsList.length != 0){
   //     console.log("quizQuestionsList", quizQuestionsList[0]);
@@ -182,48 +186,49 @@ const QuizQuestions = () => {
     setCurrentQuestionCount((prevIndex) => prevIndex - 1);
   };
 
-  return (
-    <div className="QuizQuestions-container">
-      {quizQuestionsList.length === 0 ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <h2>Quiz: {quizData.quizName}</h2>
-          {quizQuestionsList[currentQuestionCount].questionType === 'multipleChoice' ? (
-            <MultipleChoice
-              question={quizQuestionsList[currentQuestionCount]}
-              onAnswerChange={handleAnswerChange}
-              setAllUserAns={setAllUserAns}
-              allUserAns={allUserAns}
-              currentQuestionIndex={currentQuestionCount}
-            />
-          ) : (
-            <WrittenChoice
-              question={quizQuestionsList[currentQuestionCount]}
+    return (
+        <div className="QuizQuestions-container">
+          {quizQuestionsList.length === 0 ? (
+            <div>Loading...</div>
+          ) : submitted ? (<QuizResults allUserAns={allUserAns} quizQuestionsList={quizQuestionsList}/>) :
+          (
+            <>
+              <h2>Quiz: {quizData.quizName}</h2>
+              <QuizSideBar allUserAns={allUserAns} setCurrentQuestionCount={setCurrentQuestionCount} currentQuestionCount={currentQuestionCount}/>
+              {quizQuestionsList[currentQuestionCount].questionType === 'multipleChoice' ? (
+                <MultipleChoice
+                  question={quizQuestionsList[currentQuestionCount]}
+                  onAnswerChange={handleAnswerChange}
+                  setAllUserAns={setAllUserAns}
+                  allUserAns={allUserAns}
+                  currentQuestionIndex={currentQuestionCount}
+                />
+              ) : (
+                <WrittenChoice
+                  question={quizQuestionsList[currentQuestionCount]}
               currentQuestionIndex={currentQuestionCount}
               onAnswerChange={handleAnswerChange}
               setAllUserAns={setAllUserAns}
               allUserAns={allUserAns}
               userAnswer={allUserAns[currentQuestionCount] || ''}
               setCurrentQuestionCount={setCurrentQuestionCount}
-
-            />
+                />
+              )}
+    
+              <div className="question-navigation">
+                <button onClick={handlePreviousQuestion} disabled={currentQuestionCount === 0}>
+                  Previous Question
+                </button>
+                {currentQuestionCount === quizQuestionsList.length - 1 ? (
+                  <button onClick={() => setSubmitted(true)}>Submit Quiz</button>
+                ) : (
+                  <button onClick={handleNextQuestion}>Next Question</button>
+                )}
+              </div>
+            </>
           )}
-
-          <div className="question-navigation">
-            <button onClick={handlePreviousQuestion} disabled={currentQuestionCount === 0}>
-              Previous Question
-            </button>
-            {currentQuestionCount === quizQuestionsList.length - 1 ? (
-              <button onClick={() => navigate('/quiz')}>Submit Quiz</button>
-            ) : (
-              <button onClick={handleNextQuestion}>Next Question</button>
-            )}
-          </div>
-        </>
-      )}
-    </div>
-  );
+        </div>
+    );
 };
 
 export default QuizQuestions;

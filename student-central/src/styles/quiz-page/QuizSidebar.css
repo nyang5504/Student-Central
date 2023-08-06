@@ -1,0 +1,15 @@
+/* .quiz-sidebar-selection{
+
+} */
+
+.question-complete{
+    background-color: rgb(226, 255, 223);
+}
+.question-incomplete{
+    background-color: rgb(227, 227, 227);
+}
+
+.question-selected{
+
+    border: 2px solid red;
+}
