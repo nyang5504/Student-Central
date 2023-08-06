@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import '../../styles/quiz-page/QuizQuestions.css';
 // import "../components/SavedQuizCard"
 // import QuizSideBar from './QuizSidebar';
@@ -7,6 +7,7 @@ import MultipleChoice from './MultipleChoice'
 import WrittenChoice from './WrittenChoice'
 
 const QuizQuestions = () => {
+    const navigate = useNavigate();
 
     const params = new URLSearchParams(useLocation().search);
     const { quizName } = useParams();
@@ -26,6 +27,9 @@ const QuizQuestions = () => {
     const [questionOrder, setQuestionOrder] = useState([]);
     
     const [quizQuestionsList, setQuizQuestionsList] = useState([]);
+    const [userAnswers, setUserAnswers] = useState({});
+    const [allUserAns, setAllUserAns] = useState([]);
+    const [correctCount, setCorrectCount] = useState(0);
 
     // if(quizQuestionsList.length != 0){
     //     console.log("quizQuestionsList", quizQuestionsList[0]);
@@ -53,12 +57,14 @@ const QuizQuestions = () => {
     }
 
     const createMCChoices = (answer, defs) => {
-        let randomNum = Math.random() * 4;
+        let randomNum = Math.floor(Math.random() * 4);
+        const defsCopy = defs.filter(def => def != answer);
         const arrMC = [];
         for(let i = 0; i < 4; i++){
             if(i != randomNum){
-                let randomDefIdx = Math.floor(Math.random() * defs.length);
-                arrMC.push(defs[randomDefIdx]);
+                let randomDefIdx = Math.floor(Math.random() * defsCopy.length);
+                arrMC.push(defsCopy[randomDefIdx]);
+                defsCopy.splice(randomDefIdx,1);
             }
             else{
                 arrMC.push(answer);
@@ -90,6 +96,12 @@ const QuizQuestions = () => {
             
         }
         setQuizQuestionsList(entireQuiz);
+
+        const emptyAns = [];
+        for(let i = 0; i < entireQuiz.length; i++){
+            emptyAns.push("");
+        }
+        setAllUserAns(emptyAns);
     }
 
     const shuffleArr = (arr) => {
@@ -151,20 +163,63 @@ const QuizQuestions = () => {
 
     // }, [currentQuestionCount])
 
+    const handleAnswerChange = (answer) => {
+        setUserAnswers((prevAnswers) => ({
+          ...prevAnswers,
+          [currentQuestionCount]: answer,
+        }));
+      };
+      
+      //Save user answer(doesnt work yet) and moves to next question
+      const handleNextQuestion = () => {
+        handleAnswerChange(currentQuestionCount, userAnswers);
+        setCurrentQuestionCount((prevIndex) => prevIndex + 1);
+      };
+
+      //Save user answer(doesnt work yet) and moves to previous question
+      const handlePreviousQuestion = () => {
+        handleAnswerChange(currentQuestionCount, userAnswers);
+        setCurrentQuestionCount((prevIndex) => prevIndex - 1);
+      };
+
     return (
         <div className="QuizQuestions-container">
-            {/* <QuizSideBar/> */}
-            {(quizQuestionsList.length === 0) ? <div>Loading</div> :
-            (quizQuestionsList[currentQuestionCount].questionType == "multipleChoice") ? 
-            <MultipleChoice 
-                question={quizQuestionsList[currentQuestionCount]} 
-                setCurrentQuestionCount={setCurrentQuestionCount}/> : 
-            <WrittenChoice 
-                question={quizQuestionsList[currentQuestionCount]} 
-                setCurrentQuestionCount={setCurrentQuestionCount}/>
-            }
-
-
+          {quizQuestionsList.length === 0 ? (
+            <div>Loading...</div>
+          ) : (
+            <>
+              <h2>Quiz: {quizData.quizName}</h2>
+              {quizQuestionsList[currentQuestionCount].questionType === 'multipleChoice' ? (
+                <MultipleChoice
+                  question={quizQuestionsList[currentQuestionCount]}
+                  onAnswerChange={handleAnswerChange}
+                  setAllUserAns={setAllUserAns}
+                  allUserAns={allUserAns}
+                  currentQuestionIndex={currentQuestionCount}
+                />
+              ) : (
+                <WrittenChoice
+                  question={quizQuestionsList[currentQuestionCount]}
+              currentQuestionIndex={currentQuestionCount}
+              onAnswerChange={handleAnswerChange}
+              userAnswer={userAnswers[currentQuestionCount]}
+              setCurrentQuestionCount={setCurrentQuestionCount}
+              totalQuestions={quizQuestionsList.length}
+                />
+              )}
+    
+              <div className="question-navigation">
+                <button onClick={handlePreviousQuestion} disabled={currentQuestionCount === 0}>
+                  Previous Question
+                </button>
+                {currentQuestionCount === quizQuestionsList.length - 1 ? (
+                  <button onClick={() => navigate('/quiz')}>Submit Quiz</button>
+                ) : (
+                  <button onClick={handleNextQuestion}>Next Question</button>
+                )}
+              </div>
+            </>
+          )}
         </div>
     );
 };
