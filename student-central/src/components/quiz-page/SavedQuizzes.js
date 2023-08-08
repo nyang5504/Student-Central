@@ -45,6 +45,7 @@ const SavedQuizzes = () => {
     }
   };
   console.log(allQuizzes);
+  
   return (
     <div className="saved-quizzes">
       <h2>Saved Quizzes</h2>

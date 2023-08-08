@@ -1,9 +1,15 @@
 .customQuizpage-container{
     display: flex;
-    flex-wrap: wrap;
+    width: 100vw;
     min-height: 100vh;
-    margin-top: 5vh;
-    width: 90%;
+    background-color: rgb(245, 245, 245);
+}
+
+.customQuizpage-contents{
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    justify-content: center;
 }
 
 .customQuizpage{
@@ -17,12 +23,56 @@
     display: flex;
     justify-content: center;
     padding-bottom: 2vh;
+    width: 100vw;
+}
+
+.quizName-input{
+    width: 25vw;
+}
+
+.term-input{
+    /* width: 25vw; */
+    flex:1
+}
+
+.def-input{
+    /* width:25vw; */
+    padding: 6px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    flex:1
 }
 
 .question-container{
-    margin-left: 5%;
+    width: 100vw;
+    margin-top: 2vw;
+    display: flex;
+    justify-content: center;
+    
+}
+.question-container-contents{
+    display: flex;
+    width: 90vw;
+    justify-content: center;
+}
+
+.name-container{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
 }
 
 .buttons-container{
-    margin-left: 5%;
+    margin-top: 2vh;
+    width: 90vw;
+    display: flex;
+    /* justify-content: space-between; */
+    margin-bottom: 2vh;
+}
+
+#add-question-btn, #save-quiz-btn{
+    height: 5vh;
+    flex:1;
+    border: 1px solid lightgray;
+    border-radius: 5px;
 }

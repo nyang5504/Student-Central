@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/user-profile/Login.css';
 
 // Main function for the form
@@ -76,6 +76,8 @@ const LoginForm = () => {
 
                     <button type="submit">Login</button>
                     {errorMessage && <p>{errorMessage}</p>}
+                    <br/>
+                    <Link to={"/register"}>Don't Have an Account?</Link>
                 </form>
             </div>
         </div>

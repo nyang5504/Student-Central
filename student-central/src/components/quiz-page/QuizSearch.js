@@ -26,6 +26,7 @@ const QuizSearch = () => {
 
     useEffect(() => {
         // Use the search term from the URL
+        console.log("useEffect!!!")
         setSearchTerm(searchTermParam || '');
         // Filter quizzes based on the search term
         const filtered = Object.keys(allQuizzes).reduce((result, quizName) => {
