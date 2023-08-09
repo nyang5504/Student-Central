@@ -467,6 +467,60 @@ MongoClient.connect(uri, options)
       }
     });
 
+    app.get('/api/quiz/one-quiz-from-all/:quizName/:user', async (req, res) => {
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({ error: 'Token does not exist' });
+      }
+      // const { username } = jwt.verify(token, key);
+      const quizName = req.params.quizName;
+      const quizMaker = req.params.user;
+      // const user = await userCollection.findOne({ username });
+      try {
+        // Find the document for the user
+        const userDocument = await quizCollection.findOne({ username: quizMaker });
+        if (!userDocument) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+        // Find the quiz from the quiz list based on the quizName
+        const quizData = userDocument.quizList[quizName];
+        if (!quizData) {
+          return res.status(404).json({ error: 'Quiz not found' });
+        }
+        res.status(200).json(quizData);
+      } catch (error) {
+        console.log('Error fetching quiz data:', error);
+        res.status(500).json({ error: 'Failed to fetch quiz data' });
+      }
+    });
+
+    // app.get('/api/quiz/all-quizzes', async (req, res) => {
+    //   try {
+    //     const allUsers = await quizCollection.find({}).toArray();
+    //     if (!allUsers) {
+    //       return res.status(404).json({ error: 'No quizzes found' });
+    //     }
+    
+    //     // Create an object to store quizzes by category
+    //     const allQuizzes = {};
+    
+    //     allUsers.forEach((user) => {
+    //       Object.keys(user.quizList).forEach((name) => {
+    //         if (!allQuizzes[name]) {
+    //           allQuizzes[name] = [];
+    //         }
+    //         allQuizzes[name].push(...user.quizList[name]);
+    //       });
+    //     });
+    
+    //     console.log(allQuizzes);
+    //     res.status(200).json(allQuizzes);
+    //   } catch (error) {
+    //     console.log('Error fetching quizzes:', error);
+    //     res.status(500).json({ error: 'Failed to fetch quizzes' });
+    //   }
+    // });
+    
     app.get('/api/quiz/all-quizzes', async (req, res) => {
       try {
         const allUsers = await quizCollection.find({}).toArray();
@@ -479,10 +533,10 @@ MongoClient.connect(uri, options)
     
         allUsers.forEach((user) => {
           Object.keys(user.quizList).forEach((name) => {
-            if (!allQuizzes[name]) {
-              allQuizzes[name] = [];
+            if (!allQuizzes[user.username]) {
+              allQuizzes[user.username] = [];
             }
-            allQuizzes[name].push(...user.quizList[name]);
+            allQuizzes[user.username].push(name);
           });
         });
     
@@ -493,7 +547,6 @@ MongoClient.connect(uri, options)
         res.status(500).json({ error: 'Failed to fetch quizzes' });
       }
     });
-    
 
 
     // Server success or error

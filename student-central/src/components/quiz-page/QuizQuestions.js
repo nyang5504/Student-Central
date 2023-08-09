@@ -9,13 +9,18 @@ import QuizResults from './QuizResults'
 import QuizSideBar from './QuizSidebar';
 
 const QuizQuestions = () => {
+  const location = useLocation();
+  const prevLocation = location.state.prevPath;
+  const quizCreator = location.state.creator;
+  console.log("prevLocation", location.state.prevPath);
+  console.log("creator", location.state.creator);
 
   //get query param
   const params = new URLSearchParams(useLocation().search);
   const quizType = params.get('type');
   //get quiz name from param
   const { quizName } = useParams();
-  
+
   const [quizData, setQuizData] = useState({
     quizName: '',
     questions: [
@@ -152,7 +157,38 @@ const QuizQuestions = () => {
         console.log('Error fetching quiz data.', error);
       }
     };
-    fetchQuizData();
+
+    const fetchQuizDataSearch = async (creator) => {
+      try {
+        const response = await fetch(`http://localhost:4000/api/quiz/one-quiz-from-all/${quizName}/${creator}`, {
+          method: 'GET',
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch quiz data.');
+        }
+
+        const data = await response.json();
+        const quizData = {
+          quizName: quizName,
+          questions: data.map((question) => ({
+            term: question.term || '',
+            definition: question.definition || '',
+          })),
+        };
+        setQuizData(quizData);
+      } catch (error) {
+        console.log('Error fetching quiz data.', error);
+      }
+    };
+
+    if (!quizCreator) {
+      fetchQuizData();
+    }
+    else {
+      fetchQuizDataSearch(quizCreator);
+    }
   }, [])
 
   //once quiz data is fetched, we can organize that information to prepare for quiz taking

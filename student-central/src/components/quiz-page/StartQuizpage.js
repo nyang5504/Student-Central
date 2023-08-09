@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 
-const StartQuizPage = () => {
+const StartQuizPage = (props) => {
+    const location = useLocation();
 
     const { quizName } = useParams();
     const navigate = useNavigate();
+
+    const prevLocation = location.state.prevPath;
+    const quizCreator = location.state.creator;
+
+    console.log("prevLocation", location.state.prevPath);
+     console.log("creator", location.state.creator);
 
     // Variable and structure for quiz questions
     const [quizData, setQuizData] = useState({
@@ -21,7 +28,7 @@ const StartQuizPage = () => {
     const [quizType, setQuizType] = useState(null);
 
     useEffect(() => {
-        const fetchQuizData = async () => {
+        const fetchQuizDataUser = async () => {
             try {
                 const response = await fetch(`http://localhost:4000/api/quiz/get-one-quiz/${quizName}`, {
                     method: 'GET',
@@ -45,7 +52,39 @@ const StartQuizPage = () => {
                 console.log('Error fetching quiz data.', error);
             }
         };
-        fetchQuizData();
+
+        const fetchQuizDataSearch = async (creator) => {
+            try {
+                const response = await fetch(`http://localhost:4000/api/quiz/one-quiz-from-all/${quizName}/${creator}`, {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch quiz data.');
+                }
+
+                const data = await response.json();
+                const quizData = {
+                    quizName: quizName,
+                    questions: data.map((question) => ({
+                        term: question.term || '',
+                        definition: question.definition || '',
+                    })),
+                };
+                setQuizData(quizData);
+            } catch (error) {
+                console.log('Error fetching quiz data.', error);
+            }
+        };
+
+        if(!quizCreator){
+            fetchQuizDataUser();
+        }
+        else{
+            fetchQuizDataSearch(quizCreator);
+        }
+        // fetchQuizData();
     }, [quizName]);
 
     const handleQuizTypeSelection = (quizType) => {
@@ -53,7 +92,11 @@ const StartQuizPage = () => {
         setQuizType(quizType);
 
         // Navigate to the QuizQuestions.js with url as the quiz type
-        navigate(`/quiz/${quizName}/questions?type=${quizType}`);
+        navigate(`/quiz/${quizName}/questions?type=${quizType}`, {
+            state:{prevPath: location.pathname, creator: quizCreator}
+        });
+        // <Link to={`/quiz/${quizName}/questions?type=${quizType}`}
+        //       state={{prevPath: location.pathname, creator: quizCreator}}></Link>
     };
 
     return (

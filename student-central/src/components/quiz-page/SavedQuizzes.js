@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../../styles/quiz-page/SavedQuizzes.css';
 
 const SavedQuizzes = () => {
+  const location = useLocation();
   const [allQuizzes, setAllQuizzes] = useState({});
 
   // Retrieve all of the user's quizzes from the database
@@ -44,7 +45,7 @@ const SavedQuizzes = () => {
       console.log('Error deleting quiz:', error);
     }
   };
-  console.log(allQuizzes);
+  // console.log(allQuizzes);
   
   return (
     <div className="saved-quizzes">
@@ -56,7 +57,8 @@ const SavedQuizzes = () => {
             <li key={quizName}>
               <span>{quizName}</span>
               {/* Start quiz button which redirects user to start quiz page for that quiz */}
-              <Link to={`start-quiz/${quizName}`}>Start</Link>
+              <Link to={`start-quiz/${quizName}`}
+              state={{prevPath: location.pathname}}>Start</Link>
               {/* Edit quiz button which redirects user to edit quiz page for that quiz */}
               <Link to={`edit-quiz/${quizName}`}>Edit</Link>
               <button onClick={() => handleDeleteQuiz(quizName)}>Delete</button>

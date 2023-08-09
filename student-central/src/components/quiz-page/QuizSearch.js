@@ -17,6 +17,7 @@ const QuizSearch = () => {
         fetch('http://localhost:4000/api/quiz/all-quizzes')
             .then((response) => response.json())
             .then((data) => {
+                console.log("allquizData", data);
                 setAllQuizzes(data);
             })
             .catch((error) => {
@@ -29,12 +30,19 @@ const QuizSearch = () => {
         console.log("useEffect!!!")
         setSearchTerm(searchTermParam || '');
         // Filter quizzes based on the search term
-        const filtered = Object.keys(allQuizzes).reduce((result, quizName) => {
-            if (quizName.toLowerCase().includes(searchTermParam.toLowerCase())) {
-                return { ...result, [quizName]: allQuizzes[quizName] };
-            }
-            return result;
-        }, {});
+        // const filtered = Object.keys(allQuizzes).reduce((result, quizName) => {
+        //     if (quizName.toLowerCase().includes(searchTermParam.toLowerCase())) {
+        //         return { ...result, quizName };
+        //     }
+        //     return result;
+        // }, {});
+        console.log("query", queryParams);
+        console.log("search", searchTermParam);
+
+        const filtered = {};
+        Object.keys(allQuizzes).forEach((user) => { filtered[user] = allQuizzes[user].filter(quiz => quiz.toLowerCase().includes(searchTermParam.toLowerCase())) })
+
+        console.log("filtered", filtered);
         setFilteredQuizzes(filtered);
     }, [searchTermParam, allQuizzes]);
 
@@ -66,11 +74,15 @@ const QuizSearch = () => {
                     <p>No quizzes found.</p>
                 ) : (
                     <ul>
-                        {Object.keys(filteredQuizzes).map((quizName) => (
-                            <li key={quizName}>
-                                <span>{quizName}</span>
-                                <Link to={`/quiz/start-quiz/${quizName}`}>Start Quiz</Link>
-                            </li>
+                        {Object.keys(filteredQuizzes).map((creatorName) => (
+                            filteredQuizzes[creatorName].map((quizName) =>
+                                <li key={quizName}>
+                                    <span>{quizName} by: {creatorName}</span>
+                                    <Link to={`/quiz/start-quiz/${quizName}`}
+                                        state={{ prevPath: location.pathname, creator: creatorName }}>Start</Link>
+                                </li>
+                            )
+
                         ))}
                     </ul>
                 )}
