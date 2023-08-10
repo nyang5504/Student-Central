@@ -1,0 +1,45 @@
+.WrittenChoice-container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin: 20px;
+    box-shadow: 4px 4px 4px 0px pink;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+}
+
+.question-navigation {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 20px;
+    
+}
+
+.navigation-button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  background-color: #E79D94;
+  color: black;
+}
+
+.quizbox{
+    justify-content: center;
+}
+
+.question {
+    font-size: 25px;
+    margin-bottom: 50px;
+    
+}

@@ -1,0 +1,38 @@
+.Results-Container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin:auto; 
+    box-shadow: 4px 4px 4px 0px pink;
+    width: 600px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Title {
+    font-size: large;
+    font-weight: bold;
+}
+
+.percentage {
+    margin-right: 5px; 
+    font-weight: bold;
+}
+
+.done-btn {
+    margin-top: 20px;
+    font-size: medium;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: pink;
+}
+
+.done-btn:hover {
+    background-color: lightblue;
+}

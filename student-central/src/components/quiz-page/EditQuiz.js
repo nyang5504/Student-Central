@@ -31,10 +31,10 @@ const EditQuiz = () => {
                 }
                 const data = await response.json();
                 const quizData = {
-                    quizName: quizName, 
+                    quizName: quizName,
                     // map out questions from database. Empty string is default
                     questions: data.map((question) => ({
-                        term: question.term || '', 
+                        term: question.term || '',
                         definition: question.definition || '',
                     })),
                 };
@@ -56,7 +56,7 @@ const EditQuiz = () => {
             ...prevData,
             // Iterates over question array with the new data
             questions: prevData.questions.map((questionData, i) =>
-            // checks if the current index matches the new index, then updates the property
+                // checks if the current index matches the new index, then updates the property
                 i === index ? { ...questionData, [field]: value } : questionData
             ),
         }));
@@ -103,7 +103,7 @@ const EditQuiz = () => {
             }
 
             const data = await response.json();
-            console.log('Server Response:', data); 
+            console.log('Server Response:', data);
             // Redirects user to Quiz homepage once an edit is made
             navigate('/quiz');
         } catch (error) {
@@ -112,43 +112,52 @@ const EditQuiz = () => {
     };
 
     return (
-        <div className="edit-quiz">
-            <h2>Edit Quiz</h2>
-            <input
-                type="text"
-                name="quizName"
-                value={quizData.quizName}
-                // Should be used for quiz name edit but that's still in work
-                onChange={(e) => handleChange(e, 0, 'term')} 
-                placeholder="Quiz Name"
-            />
-            <ul>
-                {/*Condition to check if there are questions */}
-                {quizData.questions &&
-                // Iterates over questions in the quiz to show terms/definition
-                    quizData.questions.map((questionData, index) => (
-                        // Renders list of questions
-                        // Index + 1 is to track question(term/def) number.
-                        <li key={index}>
-                            <input
-                                type="text"
-                                name={`term${index + 1}`}
-                                value={questionData.term || ''}
-                                onChange={(e) => handleChange(e, index, 'term')} // Pass 'term' as the third argument
-                                placeholder={`Term ${index + 1}`}
-                            />
-                            <textarea
-                                name={`definition${index + 1}`}
-                                value={questionData.definition || ''}
-                                onChange={(e) => handleChange(e, index, 'definition')} // Pass 'definition' as the third argument
-                                placeholder={`Definition ${index + 1}`}
-                            />
-                            <button onClick={() => handleRemoveQuestion(index)}>Remove</button>
-                        </li>
-                    ))}
-            </ul>
-            <button onClick={handleAddQuestion}>Add Question</button>
-            <button onClick={handleSaveChanges}>Save Changes</button>
+        <div className="editQuizpage-container">
+            <div className="editQuizpage-container">
+                <div className="edit-quiz">
+                    <div className='QuizTitle'>
+                    <h2>Edit Quiz:  {quizData.quizName}</h2>
+                    </div>
+                    <div className="question-container">
+                        <div className="question-container-contents">
+                            <ul className='ul'>
+                                {/*Condition to check if there are questions */}
+                                {quizData.questions &&
+                                    // Iterates over questions in the quiz to show terms/definition
+                                    quizData.questions.map((questionData, index) => (
+                                        // Renders list of questions
+                                        // Index + 1 is to track question(term/def) number.
+                                        <li key={index}>
+                                            <label> Term: </label>
+                                            <input
+                                                className="term-input"
+                                                type="text"
+                                                name={`term${index + 1}`}
+                                                value={questionData.term || ''}
+                                                onChange={(e) => handleChange(e, index, 'term')} 
+                                                placeholder={`Term ${index + 1}`}
+                                            />
+                                            <label> Definition: </label>
+                                            <input
+                                                className="def-input"
+                                                name={`definition${index + 1}`}
+                                                value={questionData.definition || ''}
+                                                onChange={(e) => handleChange(e, index, 'definition')} 
+                                                placeholder={`Definition ${index + 1}`}
+                                            />
+                                            <button className= "remove-question-btn" onClick={() => handleRemoveQuestion(index)}>Remove</button>
+                                        </li>
+                                    ))}
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="edit-quiz-buttons-container">
+                    <button type="button" id="add-question-btn" onClick={handleAddQuestion}>Add Question</button>
+                    <button type="button" id="save-quiz-btn" onClick={handleSaveChanges}>Save Changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

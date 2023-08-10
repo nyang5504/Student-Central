@@ -210,13 +210,13 @@ const QuizQuestions = () => {
 
   return (
     <div className="QuizQuestions-container">
+      
       {/* Buffer for our state variables to get their values before using them. Without this, we would have an error */}
       {quizQuestionsList.length === 0 ? (
         <div>Loading...</div>
       ) : submitted ? (<QuizResults allUserAns={allUserAns} quizQuestionsList={quizQuestionsList} />) :
         (
           <>
-            <h2>Quiz: {quizData.quizName}</h2>
             <QuizSideBar allUserAns={allUserAns} setCurrentQuestionCount={setCurrentQuestionCount} currentQuestionCount={currentQuestionCount} />
             {quizQuestionsList[currentQuestionCount].questionType === 'multipleChoice' ? (
               <MultipleChoice
@@ -224,6 +224,11 @@ const QuizQuestions = () => {
                 setAllUserAns={setAllUserAns}
                 allUserAns={allUserAns}
                 currentQuestionIndex={currentQuestionCount}
+                handleNextQuestion = {handleNextQuestion}
+                handlePreviousQuestion = {handlePreviousQuestion}
+                setSubmitted = {setSubmitted}
+                quizQuestionsList = {quizQuestionsList}
+                currentQuestionCount = {currentQuestionCount}
               />
             ) : (
               <WrittenChoice
@@ -233,20 +238,13 @@ const QuizQuestions = () => {
                 allUserAns={allUserAns}
                 userAnswer={allUserAns[currentQuestionCount] || ''}
                 setCurrentQuestionCount={setCurrentQuestionCount}
+                handleNextQuestion = {handleNextQuestion}
+                handlePreviousQuestion = {handlePreviousQuestion}
+                setSubmitted = {setSubmitted}
+                quizQuestionsList = {quizQuestionsList}
+                currentQuestionCount = {currentQuestionCount}
               />
             )}
-
-            {/* handles going to previous and next question. If it's the last question, you can submit the quiz */}
-            <div className="question-navigation">
-              <button onClick={handlePreviousQuestion} disabled={currentQuestionCount === 0}>
-                Previous Question
-              </button>
-              {currentQuestionCount === quizQuestionsList.length - 1 ? (
-                <button onClick={() => setSubmitted(true)}>Submit Quiz</button>
-              ) : (
-                <button onClick={handleNextQuestion}>Next Question</button>
-              )}
-            </div>
           </>
         )}
     </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/quiz-page/QuizResults.css';
 
 const QuizResults = (props) => {
 
@@ -17,11 +18,17 @@ const QuizResults = (props) => {
 
     return (
         <div className="QuizResults-container">
-            <div>Correct: {calcNumCorrect()}/{props.allUserAns.length}</div>
-            <div>Percentage: {((calcNumCorrect()/props.allUserAns.length) * 100).toFixed(2)}%</div>
-            <button onClick={() => navigate('/quiz')}>Done</button>
+            <div className='Results-Container'>
+                <p className='Title'>Quiz Results</p>
+                <div className='Result'>
+                    <p>Correct: {calcNumCorrect()}/{props.allUserAns.length}</p>
+                    <p>Percentage: <span className='Percentage'>{((calcNumCorrect()/props.allUserAns.length) * 100).toFixed(2)}%</span></p>
+                </div>
+                <button className='done-btn' onClick={() => navigate('/quiz')}>Done</button>
+            </div>
         </div>
     );
+    
 };
 
 export default QuizResults;

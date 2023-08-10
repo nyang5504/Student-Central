@@ -1,5 +1,102 @@
-/*Work on Edit Quiz*/
+.editQuizpage-container {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: rgb(245, 245, 245);
+}
 
-.edit-quiz{
-    margin-left: 5%;
+.editQuizpage-contents {
+    display: flex;
+    flex-wrap: wrap;
+    height: fit-content;
+    justify-content: center;
+}
+
+
+
+.createQuizTitle {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2vh;
+    width: 100vw;
+}
+
+.quizName-input {
+    width: 25vw;
+    
+}
+
+.term-input {
+    padding: 6px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    flex: 1;
+    
+}
+
+.def-input {
+    padding: 6px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    flex: 1;
+    
+}
+
+.question-container {
+    width: 100vw;
+    margin-top: 2vw;
+    display: flex;
+    justify-content: center;
+}
+
+.question-container-contents {
+    display: flex;
+    width: 90vw;
+    justify-content: center;
+}
+
+.name-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.edit-quiz-buttons-container {
+    margin-top: 2vh;
+    width: 90vw;
+    display: flex;
+    margin-bottom: 2vh;
+    justify-content: center;
+}
+
+#add-question-btn, #save-quiz-btn, #remove-question-btn {
+    height: 5vh;
+    
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+
+.remove-question-btn:hover{
+    background-color: red;
+}
+.remove-question-btn {
+    height: 5vh;
+    flex: 1;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+}
+#save-quiz-btn:hover{
+    background-color: lightskyblue;
+}
+#add-question-btn:hover{
+    background-color: lightgreen;
+}
+.ul{
+    list-style-type: none;
+}
+
+.QuizTitle{
+    display: flex;
+    justify-content: center;
 }

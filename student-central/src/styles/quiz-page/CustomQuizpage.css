@@ -31,12 +31,10 @@
 }
 
 .term-input{
-    /* width: 25vw; */
     flex:1
 }
 
 .def-input{
-    /* width:25vw; */
     padding: 6px;
     border: 1px solid lightgray;
     border-radius: 4px;
@@ -66,7 +64,6 @@
     margin-top: 2vh;
     width: 90vw;
     display: flex;
-    /* justify-content: space-between; */
     margin-bottom: 2vh;
 }
 

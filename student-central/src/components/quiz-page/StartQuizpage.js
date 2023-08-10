@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import '../../styles/quiz-page/StartQuizpage.css';
 
 const StartQuizPage = (props) => {
     const location = useLocation();
@@ -100,25 +101,24 @@ const StartQuizPage = (props) => {
     };
 
     return (
-        <div>
-            <h2>Start Quiz: {quizData.quizName}</h2>
-            <div>
+        <div className="startQuiz-container">
+            <div className='Type'>
                 <p>Select Quiz Type:</p>
                 <button
                     onClick={() => handleQuizTypeSelection('multipleChoice')}
-                    className={quizType === 'multipleChoice' ? 'selected' : ''}
+                    className={`quiz-type-btn ${quizType === 'multipleChoice' ? 'selected' : ''}`}
                 >
                     Multiple Choice
                 </button>
                 <button
                     onClick={() => handleQuizTypeSelection('written')}
-                    className={quizType === 'written' ? 'selected' : ''}
+                    className={`quiz-type-btn ${quizType === 'written' ? 'selected' : ''}`}
                 >
                     Written Question
                 </button>
                 <button
                     onClick={() => handleQuizTypeSelection('both')}
-                    className={quizType === 'both' ? 'selected' : ''}
+                    className={`quiz-type-btn ${quizType === 'both' ? 'selected' : ''}`}
                 >
                     Both
                 </button>
