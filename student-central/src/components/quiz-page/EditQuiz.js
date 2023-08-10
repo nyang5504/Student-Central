@@ -18,6 +18,8 @@ const EditQuiz = () => {
         ],
     });
 
+    console.log(quizData);
+
     // Fetches the quiz data from the server based on quizName
     useEffect(() => {
         const fetchQuizData = async () => {
@@ -79,6 +81,13 @@ const EditQuiz = () => {
         }));
     };
 
+    const handleChangePublicize = (publicity) => {
+        setQuizData((prevData) => ({
+            ...prevData,
+            publicize: publicity
+        }));
+    }
+
     // Function to remove question
     const handleRemoveQuestion = (index) => {
         setQuizData((prevData) => ({
@@ -125,8 +134,8 @@ const EditQuiz = () => {
                                 id='private-btn'
                                 name='public-private'
                                 value={"private"}
-                                checked={quizData === 'private' ? "true" : "false"}
-                                // onClick={() => setPublicized("private")}
+                                checked={quizData.publicize === 'private' ? true : false}
+                                onChange={() => handleChangePublicize("private")}
                             />
                             <label htmlFor='private-btn'>private</label>
                             &nbsp; |
@@ -135,8 +144,8 @@ const EditQuiz = () => {
                                 id='public-btn'
                                 name='public-private'
                                 value={"public"}
-                                checked={quizData === 'public' ? "true" : "false"}
-                                // onClick={() => setPublicized("public")}
+                                checked={quizData.publicize === 'public' ? true : false}
+                                onChange={() => handleChangePublicize("public")}
                             />
                             <label htmlFor='public-btn'>public</label>
 

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/schedule-page/Schedulepage.css';
 import Schedule from './Schedule';
 import AddEventPopup from './AddEventPopup';
@@ -15,22 +16,32 @@ const SchedulePage = () => {
     //boolean to determine if the form popup is open
     const [isFormOpen, setIsFormOpen] = useState(false);
 
+    const navigate = useNavigate();
+
     //fetches previously saved events from database
     useEffect(() => {
-        const getData = () => {
-            try{
-                return fetch('http://localhost:4000/api/schedule/my-events', {
-                    method:'GET',
-                    credentials: 'include'
-                })
-                .then(res => res.json())
-                .then(data => setEvents(data));
-            } catch (error) {
-                console.log("error getData", error);
+        const fetchData = () => {
+          fetch('http://localhost:4000/api/schedule/my-events', {
+            method: 'GET',
+            credentials: 'include',
+          })
+          .then(response => {
+            if (response.status === 401) {
+              navigate('/login');
+              return;
             }
-        }
-        getData()
-    },[])
+            return response.json();
+          })
+          .then(data => {
+            setEvents(data);
+          })
+          .catch(error => {
+            console.error('Error fetching events:', error);
+          });
+        };
+      
+        fetchData();
+      }, []);
 
     //saves data to database
     useEffect(() => {

@@ -36,6 +36,10 @@ const QuizForm = () => {
       alert('Please provide a quiz name, select if quiz if public or private and fill in all terms and definitions.');
       return;
     }
+    if (questions.length < 4) {
+      alert('Please provide at least 4 terms and definitions.');
+      return;
+    }
     const copyAllQuizzes = { ...allQuizzes };
     const anotherQuiz = {};
     anotherQuiz.publicize = publicized;

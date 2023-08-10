@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/quiz-page/SavedQuizzes.css';
 
 const SavedQuizzes = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [allQuizzes, setAllQuizzes] = useState({});
 
   // Retrieve all of the user's quizzes from the database
@@ -15,6 +17,7 @@ const SavedQuizzes = () => {
           credentials: 'include'
         });
         if (!response.ok) {
+          navigate('/login');
           throw new Error('Failed to fetch quizzes.');
         }
         const data = await response.json();

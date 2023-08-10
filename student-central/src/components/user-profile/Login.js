@@ -25,7 +25,17 @@ const LoginForm = () => {
     const handleLogin = async (e) => {
         // stops page from refreshing
         e.preventDefault();
+        // Check if username and password are entered
+        if (!formStrings.username) {
+            alert("Please enter a username.");
+            return;
+        }
 
+        if (!formStrings.password) {
+            alert("Please enter a password.");
+            return;
+        }
+        
         try {
             const response = await fetch('http://localhost:4000/api/login', {
                 method: 'POST',
@@ -76,7 +86,7 @@ const LoginForm = () => {
 
                     <button type="submit">Login</button>
                     {errorMessage && <p>{errorMessage}</p>}
-                    <br/>
+                    <br />
                     <Link to={"/register"}>Don't Have an Account?</Link>
                 </form>
             </div>

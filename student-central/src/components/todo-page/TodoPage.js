@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import NoteSection from './NoteSection';
 import NoteList from './NoteList';
@@ -12,6 +13,7 @@ const TodoPage = () => {
   const [isFolderDeleted, setIsFolderDeleted] = useState(false);
 
   const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate();
   console.log(folderNotes);
   // Function to create new folder, uses spread operator to create copy
   const handleAddFolder = (folderName) => {
@@ -89,21 +91,31 @@ useEffect(() => {
 }, [folderNotes])
 
 useEffect(() => {
-  const getFolders = () => {
-    try{
-      return fetch('http://localhost:4000/api/schedule/my-folders', {
-          method:'GET',
-          credentials: 'include'
-      })
-      .then(res => res.json())
-      .then(data => setFolderNotes(data));
+  const getFolders = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/api/schedule/my-folders', {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (response.status === 401) {
+        navigate('/login');
+        return;
+      }
+
+      if (response.ok) {
+        const data = await response.json();
+        setFolderNotes(data);
+      } else {
+        console.error('Error fetching folders:', response.status);
+      }
     } catch (error) {
-        console.log("error getFolders", error);
+      console.error('Error fetching folders:', error);
     }
-  }
+  };
 
   getFolders();
-}, [])
+}, []);
 
 return (
   <div className="todo-page">

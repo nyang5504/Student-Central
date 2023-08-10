@@ -144,7 +144,7 @@ const QuizQuestions = () => {
         const quizData = {
           quizName: quizName,
           // map out questions from database. Empty string is default
-          questions: data.map((question) => ({
+          questions: data.questions.map((question) => ({
             term: question.term || '',
             definition: question.definition || '',
           })),
