@@ -43,7 +43,7 @@ const StartQuizPage = (props) => {
                 const data = await response.json();
                 const quizData = {
                     quizName: quizName,
-                    questions: data.map((question) => ({
+                    questions: data.questions.map((question) => ({
                         term: question.term || '',
                         definition: question.definition || '',
                     })),
@@ -68,7 +68,7 @@ const StartQuizPage = (props) => {
                 const data = await response.json();
                 const quizData = {
                     quizName: quizName,
-                    questions: data.map((question) => ({
+                    questions: data.questions.map((question) => ({
                         term: question.term || '',
                         definition: question.definition || '',
                     })),

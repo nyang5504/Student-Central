@@ -3,6 +3,7 @@ import '../../styles/quiz-page/CustomQuizpage.css';
 
 const QuizForm = () => {
   const [quizName, setQuizName] = useState('');
+  const [publicized, setPublicized] = useState(null);
   const [questions, setQuestions] = useState([{ term: '', definition: '' }]);
   const [allQuizzes, setAllQuizzes] = useState({});
 
@@ -31,12 +32,16 @@ const QuizForm = () => {
   // Save the Quiz in an array of arrays
   const handleSaveQuiz = () => {
     // Checks if the terms/def has values
-    if (quizName.trim() === '' || questions.some((q) => !q.term || !q.definition)) {
-      alert('Please provide a quiz name and fill in all terms and definitions.');
+    if (quizName.trim() === '' || !publicized || questions.some((q) => !q.term || !q.definition)) {
+      alert('Please provide a quiz name, select if quiz if public or private and fill in all terms and definitions.');
       return;
     }
     const copyAllQuizzes = { ...allQuizzes };
-    copyAllQuizzes[quizName] = questions;
+    const anotherQuiz = {};
+    anotherQuiz.publicize = publicized;
+    anotherQuiz.questions = questions;
+    copyAllQuizzes[quizName] = anotherQuiz;
+    console.log(copyAllQuizzes);
     setAllQuizzes(copyAllQuizzes);
     // Resets the form
     setQuizName('');
@@ -104,6 +109,25 @@ const QuizForm = () => {
             value={quizName}
             onChange={(e) => setQuizName(e.target.value)}
           />
+        </div>
+        <div>
+          <input
+            type='radio'
+            id='private-btn'
+            name='public-private'
+            value={"private"}
+            onClick={() => setPublicized("private")}
+          />
+          <label htmlFor='private-btn'>private</label>
+          &nbsp; |
+          <input
+            type='radio'
+            id='public-btn'
+            name='public-private'
+            value={"public"}
+            onClick={() => setPublicized("public")}
+          />
+          <label htmlFor='public-btn'>public</label>
         </div>
         {/*Form and inputs for the question. Maps them out */}
         {questions.map((question, index) => (

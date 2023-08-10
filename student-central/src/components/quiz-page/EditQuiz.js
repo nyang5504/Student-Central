@@ -9,6 +9,7 @@ const EditQuiz = () => {
     // Variable and structure for quiz questions
     const [quizData, setQuizData] = useState({
         quizName: '',
+        publicize: '',
         questions: [
             {
                 term: '',
@@ -32,8 +33,9 @@ const EditQuiz = () => {
                 const data = await response.json();
                 const quizData = {
                     quizName: quizName,
+                    publicize: data.publicize,
                     // map out questions from database. Empty string is default
-                    questions: data.map((question) => ({
+                    questions: data.questions.map((question) => ({
                         term: question.term || '',
                         definition: question.definition || '',
                     })),
@@ -116,7 +118,29 @@ const EditQuiz = () => {
             <div className="editQuizpage-container">
                 <div className="edit-quiz">
                     <div className='QuizTitle'>
-                    <h2>Edit Quiz:  {quizData.quizName}</h2>
+                        <h2>Edit Quiz:  {quizData.quizName}</h2>
+                        <div>
+                            <input
+                                type='radio'
+                                id='private-btn'
+                                name='public-private'
+                                value={"private"}
+                                checked={quizData === 'private' ? "true" : "false"}
+                                // onClick={() => setPublicized("private")}
+                            />
+                            <label htmlFor='private-btn'>private</label>
+                            &nbsp; |
+                            <input
+                                type='radio'
+                                id='public-btn'
+                                name='public-private'
+                                value={"public"}
+                                checked={quizData === 'public' ? "true" : "false"}
+                                // onClick={() => setPublicized("public")}
+                            />
+                            <label htmlFor='public-btn'>public</label>
+
+                        </div>
                     </div>
                     <div className="question-container">
                         <div className="question-container-contents">
@@ -134,7 +158,7 @@ const EditQuiz = () => {
                                                 type="text"
                                                 name={`term${index + 1}`}
                                                 value={questionData.term || ''}
-                                                onChange={(e) => handleChange(e, index, 'term')} 
+                                                onChange={(e) => handleChange(e, index, 'term')}
                                                 placeholder={`Term ${index + 1}`}
                                             />
                                             <label> Definition: </label>
@@ -142,10 +166,10 @@ const EditQuiz = () => {
                                                 className="def-input"
                                                 name={`definition${index + 1}`}
                                                 value={questionData.definition || ''}
-                                                onChange={(e) => handleChange(e, index, 'definition')} 
+                                                onChange={(e) => handleChange(e, index, 'definition')}
                                                 placeholder={`Definition ${index + 1}`}
                                             />
-                                            <button className= "remove-question-btn" onClick={() => handleRemoveQuestion(index)}>Remove</button>
+                                            <button className="remove-question-btn" onClick={() => handleRemoveQuestion(index)}>Remove</button>
                                         </li>
                                     ))}
 
@@ -153,8 +177,8 @@ const EditQuiz = () => {
                         </div>
                     </div>
                     <div className="edit-quiz-buttons-container">
-                    <button type="button" id="add-question-btn" onClick={handleAddQuestion}>Add Question</button>
-                    <button type="button" id="save-quiz-btn" onClick={handleSaveChanges}>Save Changes</button>
+                        <button type="button" id="add-question-btn" onClick={handleAddQuestion}>Add Question</button>
+                        <button type="button" id="save-quiz-btn" onClick={handleSaveChanges}>Save Changes</button>
                     </div>
                 </div>
             </div>

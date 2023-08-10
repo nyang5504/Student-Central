@@ -483,8 +483,8 @@ MongoClient.connect(uri, options)
           return res.status(404).json({ error: 'User not found' });
         }
         // Find the quiz from the quiz list based on the quizName
-        const quizData = userDocument.quizList[quizName];
-        if (!quizData) {
+        const quizData = userDocument.quizList[quizName].questions;
+        if (!quizData || userDocument.quizList[quizName].publicize === 'private') {
           return res.status(404).json({ error: 'Quiz not found' });
         }
         res.status(200).json(quizData);
@@ -500,10 +500,10 @@ MongoClient.connect(uri, options)
     //     if (!allUsers) {
     //       return res.status(404).json({ error: 'No quizzes found' });
     //     }
-    
+
     //     // Create an object to store quizzes by category
     //     const allQuizzes = {};
-    
+
     //     allUsers.forEach((user) => {
     //       Object.keys(user.quizList).forEach((name) => {
     //         if (!allQuizzes[name]) {
@@ -512,7 +512,7 @@ MongoClient.connect(uri, options)
     //         allQuizzes[name].push(...user.quizList[name]);
     //       });
     //     });
-    
+
     //     console.log(allQuizzes);
     //     res.status(200).json(allQuizzes);
     //   } catch (error) {
@@ -520,26 +520,55 @@ MongoClient.connect(uri, options)
     //     res.status(500).json({ error: 'Failed to fetch quizzes' });
     //   }
     // });
-    
+
+    // app.get('/api/quiz/all-quizzes', async (req, res) => {
+    //   try {
+    //     const allUsers = await quizCollection.find({}).toArray();
+    //     if (!allUsers) {
+    //       return res.status(404).json({ error: 'No quizzes found' });
+    //     }
+
+    //     // Create an object to store quizzes by category
+    //     const allQuizzes = {};
+
+    //     allUsers.forEach((user) => {
+    //       Object.keys(user.quizList).forEach((name) => {
+    //         if (!allQuizzes[user.username]) {
+    //           allQuizzes[user.username] = [];
+    //         }
+    //         allQuizzes[user.username].push(name);
+    //       });
+    //     });
+
+    //     console.log(allQuizzes);
+    //     res.status(200).json(allQuizzes);
+    //   } catch (error) {
+    //     console.log('Error fetching quizzes:', error);
+    //     res.status(500).json({ error: 'Failed to fetch quizzes' });
+    //   }
+    // });
+
     app.get('/api/quiz/all-quizzes', async (req, res) => {
       try {
         const allUsers = await quizCollection.find({}).toArray();
         if (!allUsers) {
           return res.status(404).json({ error: 'No quizzes found' });
         }
-    
+
         // Create an object to store quizzes by category
         const allQuizzes = {};
-    
+
         allUsers.forEach((user) => {
           Object.keys(user.quizList).forEach((name) => {
             if (!allQuizzes[user.username]) {
               allQuizzes[user.username] = [];
             }
-            allQuizzes[user.username].push(name);
+            if (user.quizList[name].publicize === "public") {
+              allQuizzes[user.username].push(name);
+            }
           });
         });
-    
+
         console.log(allQuizzes);
         res.status(200).json(allQuizzes);
       } catch (error) {
