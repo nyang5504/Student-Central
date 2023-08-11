@@ -10,13 +10,7 @@ const Footer = () => {
             <h2>Mohamed Barrie</h2>
         </div>
         <div className="card">
-            <h2>Mary Tang</h2>
-        </div>
-        <div className="card">
         <h2>Nina Yang</h2>
-        </div>
-        <div className="card">
-            <h2>Navkiran Kaur</h2>
         </div>
       </div>
     </footer>

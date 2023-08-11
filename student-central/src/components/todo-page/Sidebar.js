@@ -16,6 +16,9 @@ const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDe
     if (newFolderName.trim() !== '') {
       onAddFolder(newFolderName);
       setNewFolderName('');
+    } else {
+      alert("Please enter a folder name");
+      return;
     }
   };
 

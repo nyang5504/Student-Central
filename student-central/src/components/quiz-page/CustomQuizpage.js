@@ -114,25 +114,29 @@ const QuizForm = () => {
             onChange={(e) => setQuizName(e.target.value)}
           />
         </div>
-        <div>
-          <input
-            type='radio'
-            id='private-btn'
-            name='public-private'
-            value={"private"}
-            onClick={() => setPublicized("private")}
-          />
-          <label htmlFor='private-btn'>private</label>
-          &nbsp; |
-          <input
-            type='radio'
-            id='public-btn'
-            name='public-private'
-            value={"public"}
-            onClick={() => setPublicized("public")}
-          />
-          <label htmlFor='public-btn'>public</label>
-        </div>
+        <div className="switch-container">
+  <input
+    type='radio'
+    id='private-btn'
+    name='public-private'
+    value={"private"}
+    className="switch-input"
+    checked={publicized === "private"}
+    onChange={() => setPublicized("private")}
+  />
+  <label htmlFor='private-btn' className="switch-label">Private </label>
+  <span className="switch-divider">  |  </span>
+  <input
+    type='radio'
+    id='public-btn'
+    name='public-private'
+    value={"public"}
+    className="switch-input"
+    checked={publicized === "public"}
+    onChange={() => setPublicized("public")}
+  />
+  <label htmlFor='public-btn' className="switch-label">Public</label>
+</div>
         {/*Form and inputs for the question. Maps them out */}
         {questions.map((question, index) => (
           <div key={index} className="question-container">
