@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 500px;
 }
 
 .quiz-search h2 {
@@ -20,15 +21,16 @@
 }
 
 .quiz-search button {
-  background-color: blue;
-  color: white;
+  background-color: lightblue;
+  color: black;
   border: none;
+  border-radius:5px;
   padding: 5px 10px;
   cursor: pointer;
 }
 
 .quiz-list {
-  width: 400px;
+  width: 400px
 }
 
 .quiz-list ul {
@@ -42,8 +44,9 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 1px solid grey;
+  border: 1px solid lightgrey;
   margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .quiz-list li a {
