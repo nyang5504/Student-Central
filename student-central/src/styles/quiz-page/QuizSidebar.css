@@ -1,12 +1,12 @@
 .QuizSideBar-container {
-    width: 125px;
+    width: 10vw;
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     margin: 20px;
     overflow-y: auto; /* Add this */
-    max-height: 400px; /* Add this to limit the height and enable scrolling */
+    max-height: 75vh; /* Add this to limit the height and enable scrolling */
 }
   
   .quiz-sidebar-selection {

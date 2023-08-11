@@ -3,12 +3,13 @@ import '../../styles/quiz-page/CustomQuizpage.css';
 
 const QuizForm = () => {
   const [quizName, setQuizName] = useState('');
-  const [publicized, setPublicized] = useState(null);
-  const [questions, setQuestions] = useState([{ term: '', definition: '' }]);
+  const [publicized, setPublicized] = useState(false);
+  const [questions, setQuestions] = useState([{ term: '', definition: '' }, { term: '', definition: '' }, { term: '', definition: '' }, { term: '', definition: '' }]);
   const [allQuizzes, setAllQuizzes] = useState({});
 
   const [mounted, setMounted] = useState(false);
 
+  console.log("publicize", publicized);
   // Updates the state when changes are made in the form
   const handleQuestionChange = (index, field, value) => {
     const updatedQuestions = [...questions];
@@ -32,8 +33,8 @@ const QuizForm = () => {
   // Save the Quiz in an array of arrays
   const handleSaveQuiz = () => {
     // Checks if the terms/def has values
-    if (quizName.trim() === '' || !publicized || questions.some((q) => !q.term || !q.definition)) {
-      alert('Please provide a quiz name, select if quiz if public or private and fill in all terms and definitions.');
+    if (quizName.trim() === '' || questions.some((q) => !q.term || !q.definition)) {
+      alert('Please provide a quiz name, and fill in all terms and definitions.');
       return;
     }
     if (questions.length < 4) {
@@ -105,38 +106,24 @@ const QuizForm = () => {
           <h2>Create Custom Quiz</h2>
         </div>
         {/*Quiz Name form*/}
-        <div className="name-container">
-          <label>Quiz Name: </label>
-          <input
-            className="quizName-input"
-            type="text"
-            value={quizName}
-            onChange={(e) => setQuizName(e.target.value)}
-          />
+        <div className='name-and-switch'>
+          <div className="name-container">
+            <label>Quiz Name: </label>
+            <input
+              className="quizName-input"
+              type="text"
+              value={quizName}
+              onChange={(e) => setQuizName(e.target.value)}
+            />
+          </div>
+          <div className="switch-container">
+            public: &nbsp;
+            <label className='switch'>
+              <input className='switch-input' type='checkbox' onChange={() => setPublicized(!publicized)} />
+              <span className='slider'></span>
+            </label>
+          </div>
         </div>
-        <div className="switch-container">
-  <input
-    type='radio'
-    id='private-btn'
-    name='public-private'
-    value={"private"}
-    className="switch-input"
-    checked={publicized === "private"}
-    onChange={() => setPublicized("private")}
-  />
-  <label htmlFor='private-btn' className="switch-label">Private </label>
-  <span className="switch-divider">  |  </span>
-  <input
-    type='radio'
-    id='public-btn'
-    name='public-private'
-    value={"public"}
-    className="switch-input"
-    checked={publicized === "public"}
-    onChange={() => setPublicized("public")}
-  />
-  <label htmlFor='public-btn' className="switch-label">Public</label>
-</div>
         {/*Form and inputs for the question. Maps them out */}
         {questions.map((question, index) => (
           <div key={index} className="question-container">

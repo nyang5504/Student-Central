@@ -2,11 +2,12 @@
     background: white;
     padding: 40px;
     border-radius: 15px;
+    border: 2px solid pink;
     text-align: center;
     margin: 20px;
     box-shadow: 4px 4px 4px 0px pink;
-    width: 600px;
-    height: 400px;
+    width: 70vw;
+    height: 70vh;
     display: flex;
     flex-direction: column;
     align-items: center;

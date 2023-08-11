@@ -102,6 +102,7 @@ const StartQuizPage = (props) => {
 
     return (
         <div className="startQuiz-container">
+            <div className="startQuiz-container-contents">
             <div className='Type'>
                 <p>Select Quiz Type:</p>
                 <button
@@ -122,6 +123,7 @@ const StartQuizPage = (props) => {
                 >
                     Both
                 </button>
+            </div>
             </div>
         </div>
     );

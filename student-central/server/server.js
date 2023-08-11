@@ -485,7 +485,7 @@ MongoClient.connect(uri, options)
         }
         // Find the quiz from the quiz list based on the quizName
         const quizData = userDocument.quizList[quizName].questions;
-        if (!quizData || userDocument.quizList[quizName].publicize === 'private') {
+        if (!quizData || userDocument.quizList[quizName].publicize === false) {
           return res.status(404).json({ error: 'Quiz not found' });
         }
         res.status(200).json(quizData);
@@ -510,7 +510,7 @@ MongoClient.connect(uri, options)
             if (!allQuizzes[user.username]) {
               allQuizzes[user.username] = [];
             }
-            if (user.quizList[name].publicize === "public") {
+            if (user.quizList[name].publicize === true) {
               allQuizzes[user.username].push(name);
             }
           });

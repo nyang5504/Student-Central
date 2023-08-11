@@ -9,7 +9,7 @@ const EditQuiz = () => {
     // Variable and structure for quiz questions
     const [quizData, setQuizData] = useState({
         quizName: '',
-        publicize: '',
+        publicize: false,
         questions: [
             {
                 term: '',
@@ -123,72 +123,58 @@ const EditQuiz = () => {
     };
 
     return (
-        <div className="editQuizpage-container">
-            <div className="editQuizpage-container">
-                <div className="edit-quiz">
-                    <div className='QuizTitle'>
-                        <h2>Edit Quiz:  {quizData.quizName}</h2>
-                        <div>
-                            <input
-                                type='radio'
-                                id='private-btn'
-                                name='public-private'
-                                value={"private"}
-                                checked={quizData.publicize === 'private' ? true : false}
-                                onChange={() => handleChangePublicize("private")}
-                            />
-                            <label htmlFor='private-btn'>private</label>
-                            &nbsp; |
-                            <input
-                                type='radio'
-                                id='public-btn'
-                                name='public-private'
-                                value={"public"}
-                                checked={quizData.publicize === 'public' ? true : false}
-                                onChange={() => handleChangePublicize("public")}
-                            />
-                            <label htmlFor='public-btn'>public</label>
+        <div className="customQuizpage-container">
+            <div className="customQuizpage-contents">
+                <div className='createQuizTitle'>
+                    <h2>Edit Quiz:  {quizData.quizName}</h2>
+                </div>
+                <div className='switch-container'> public: &nbsp;
+                    <label className='switch'>
+                        <input className='switch-input' type='checkbox' checked={quizData.publicize} onChange={() => handleChangePublicize(!quizData.publicize)} />
+                        <span className='slider'></span>
+                    </label>
 
-                        </div>
-                    </div>
-                    <div className="question-container">
-                        <div className="question-container-contents">
-                            <ul className='ul'>
-                                {/*Condition to check if there are questions */}
-                                {quizData.questions &&
-                                    // Iterates over questions in the quiz to show terms/definition
-                                    quizData.questions.map((questionData, index) => (
-                                        // Renders list of questions
-                                        // Index + 1 is to track question(term/def) number.
-                                        <li key={index}>
-                                            <label> Term: </label>
-                                            <input
-                                                className="term-input"
-                                                type="text"
-                                                name={`term${index + 1}`}
-                                                value={questionData.term || ''}
-                                                onChange={(e) => handleChange(e, index, 'term')}
-                                                placeholder={`Term ${index + 1}`}
-                                            />
-                                            <label> Definition: </label>
-                                            <input
-                                                className="def-input"
-                                                name={`definition${index + 1}`}
-                                                value={questionData.definition || ''}
-                                                onChange={(e) => handleChange(e, index, 'definition')}
-                                                placeholder={`Definition ${index + 1}`}
-                                            />
-                                            <button className="remove-question-btn" onClick={() => handleRemoveQuestion(index)}>Remove</button>
-                                        </li>
-                                    ))}
+                </div>
 
-                            </ul>
+                {/*Condition to check if there are questions */}
+                {quizData.questions &&
+                (
+                    // Iterates over questions in the quiz to show terms/definition
+                    quizData.questions.map((questionData, index) => (
+                        // Renders list of questions
+                        // Index + 1 is to track question(term/def) number.
+                        <div className="question-container" key={index}>
+                            <div className="question-container-contents">
+                                <label> Term: </label>
+                                <input
+                                    className="term-input"
+                                    type="text"
+                                    name={`term${index + 1}`}
+                                    value={questionData.term || ''}
+                                    onChange={(e) => handleChange(e, index, 'term')}
+                                    placeholder={`Term ${index + 1}`}
+                                />
+                                <label> Definition: </label>
+                                <textarea
+                                    className="def-input"
+                                    name={`definition${index + 1}`}
+                                    value={questionData.definition || ''}
+                                    onChange={(e) => handleChange(e, index, 'definition')}
+                                    placeholder={`Definition ${index + 1}`}
+                                />
+                                {quizData.questions.length > 1 && (
+                                    <button type="button" onClick={() => handleRemoveQuestion(index)}>
+                                        Remove
+                                    </button>
+                                )}
+                            </div>
                         </div>
-                    </div>
-                    <div className="edit-quiz-buttons-container">
-                        <button type="button" id="add-question-btn" onClick={handleAddQuestion}>Add Question</button>
-                        <button type="button" id="save-quiz-btn" onClick={handleSaveChanges}>Save Changes</button>
-                    </div>
+                    ))
+                )}
+
+                <div className="buttons-container">
+                    <button type="button" id="add-question-btn" onClick={handleAddQuestion}>Add Question</button>
+                    <button type="button" id="save-quiz-btn" onClick={handleSaveChanges}>Save Changes</button>
                 </div>
             </div>
         </div>
