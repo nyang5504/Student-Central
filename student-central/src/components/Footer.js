@@ -7,10 +7,12 @@ const Footer = () => {
       <h2>About Us</h2>
       <div className="card-container">
         <div className="card">
-            <h2>Mohamed Barrie</h2>
+          <h2 className='card-name'>Mohamed Barrie</h2>
+          <p>I'm a Computer Science major in my senior year. I like I.T and Cybersecurity.</p>
         </div>
         <div className="card">
-        <h2>Nina Yang</h2>
+          <h2 className='card-name'>Nina Yang</h2>
+          <p>Hi.</p>
         </div>
       </div>
     </footer>

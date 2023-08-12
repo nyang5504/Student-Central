@@ -4,6 +4,9 @@ import { NavLink } from 'react-router-dom';
 import profileIcon from '../assets/Ellipse 6.png';
 
 const Navigation = () => {
+  const handleRefresh = () => {
+    window.location.reload();
+  };
   return (
     <div className='entire-navbar'>
     <nav className="navigation">
@@ -11,28 +14,24 @@ const Navigation = () => {
         <NavLink to="/" className="logo">Student Central</NavLink>
         <div className="links">
           <NavLink
-            onClick={() => window.reload()}
             style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}}
             to="/schedule" 
             className="link">
               Schedule
           </NavLink>
-          <NavLink 
-            onClick={() => window.reload()}
+          <NavLink           
             style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
             to="/list" 
             className="link">
               To-Do List
           </NavLink>
-          <NavLink 
-            onClick={() => window.reload()}
+          <NavLink           
             style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
             to="/quiz" 
             className="link">
               Quiz
           </NavLink>
-          <NavLink 
-            onClick={() => window.reload()}
+          <NavLink           
             style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
             to="/profile" 
             className="link">

@@ -85,6 +85,22 @@
     border-radius: 5px;
 }
 
+#add-question-btn:hover{
+    background-color: lightgreen;
+}
+
+#save-quiz-btn:hover{
+    background-color: lightskyblue;
+}
+
+#remove-btn{
+    border-radius: 5px;
+    border:1px solid lightgray
+}
+#remove-btn:hover{
+    background-color: rgb(255, 71, 71);
+}
+
 .switch {
     position: relative;
     display: inline-block;

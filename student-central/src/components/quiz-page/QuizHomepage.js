@@ -5,7 +5,6 @@ import SavedQuizzes from './SavedQuizzes';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const QuizHomePage = () => {
-
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -22,26 +21,20 @@ const QuizHomePage = () => {
         <div className="quizHome-container">
             <div className='quizHome-left'>
                 <div className='quizHome-left-items'>
-                    <input
+                    <input className='search-bar'
                         type="text"
                         value={searchTerm}
                         onChange={handleSearchChange}
                         placeholder="Search for quizzes..."
                     />
-                    <button onClick={handleSearchSubmit}>Search</button>
-
-                    <div className='space-between' id="space-b-quiz"></div>
-                    <NavLink 
-                        onClick={() => window.reload()}
-                        to="custom">
-                        <button className='newQuiz-btn'>+</button>
+                    <button className='search-homepage' onClick={handleSearchSubmit}>Search</button>
+                    <NavLink to="custom" className='newQuiz-link'>
+                        Create A New Quiz
                     </NavLink>
-                    
                 </div>
-                
             </div>
             <div className='quizHome-right'>
-                <SavedQuizzes/>
+                <SavedQuizzes />
             </div>
         </div>
     );

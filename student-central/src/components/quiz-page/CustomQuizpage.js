@@ -144,7 +144,7 @@ const QuizForm = () => {
               />
               {/*If the number of questions is greater than 1, than the remove button appears */}
               {questions.length > 1 && (
-                <button type="button" onClick={() => handleRemoveQuestion(index)}>
+                <button type="button" id="remove-btn" onClick={() => handleRemoveQuestion(index)}>
                   Remove
                 </button>
               )}
