@@ -21,3 +21,6 @@
     border: 2px solid black;
   }
   
+  .card-name {
+    text-decoration: underline;
+  }
