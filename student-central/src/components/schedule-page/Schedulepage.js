@@ -21,7 +21,7 @@ const SchedulePage = () => {
     //fetches previously saved events from database
     useEffect(() => {
         const fetchData = () => {
-          fetch('http://localhost:4000/api/schedule/my-events', {
+          fetch('/api/schedule/my-events', {
             method: 'GET',
             credentials: 'include',
           })
@@ -48,7 +48,7 @@ const SchedulePage = () => {
         const saveToDatabase = () => {
             try{
                 // console.log("SAVETODATABASE", JSON.stringify(events));
-                    fetch('http://localhost:4000/api/schedule/save-events', {
+                    fetch('/api/schedule/save-events', {
                     method:'POST',
                     headers: {
                         'Content-Type': 'application/json'

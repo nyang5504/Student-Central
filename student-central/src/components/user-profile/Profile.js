@@ -19,7 +19,7 @@ const Profile = () => {
   // Fetch user data
   const fetchProfile = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/profile', {
+      const response = await fetch('/api/profile', {
         method: 'GET',
         //Used for cookies
         credentials: 'include',
@@ -49,7 +49,7 @@ const Profile = () => {
     }
     
     try {
-      const response = await fetch('http://localhost:4000/api/change-password', {
+      const response = await fetch('/api/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // JSON body request
@@ -78,7 +78,7 @@ const Profile = () => {
   // Delete cookie and user session
   const signOut = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/sign-out', {
+      const response = await fetch('/api/sign-out', {
         method: 'POST',
         credentials: 'include',
       });
