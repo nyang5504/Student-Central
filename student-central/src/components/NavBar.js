@@ -9,40 +9,44 @@ const Navigation = () => {
   };
   return (
     <div className='entire-navbar'>
-    <nav className="navigation">
-      <div className="container">
-        <NavLink to="/" className="logo">Student Central</NavLink>
-        <div className="links">
-          <NavLink
-            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}}
-            to="/schedule" 
-            className="link">
+      <nav className="navigation">
+        <div className="container">
+          <NavLink to="/" className="logo">Student Central</NavLink>
+          <div className="links">
+            <NavLink
+              onClick={() => window.reload()}
+              style={({ isActive }) => { return isActive ? { color: "#F6BE00", fontSize: "16px" } : {} }}
+              to="/schedule"
+              className="link">
               Schedule
-          </NavLink>
-          <NavLink           
-            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
-            to="/list" 
-            className="link">
+            </NavLink>
+            <NavLink
+              onClick={() => window.reload()}
+              style={({ isActive }) => { return isActive ? { color: "#F6BE00", fontSize: "16px" } : {} }}
+              to="/list"
+              className="link">
               To-Do List
-          </NavLink>
-          <NavLink           
-            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
-            to="/quiz" 
-            className="link">
+            </NavLink>
+            <NavLink
+              onClick={() => window.reload()}
+              style={({ isActive }) => { return isActive ? { color: "#F6BE00", fontSize: "16px" } : {} }}
+              to="/quiz"
+              className="link">
               Quiz
-          </NavLink>
-          <NavLink           
-            style={({isActive}) => {return isActive ? {color: "#F6BE00", fontSize: "16px"} : {}}} 
-            to="/profile" 
-            className="link">
+            </NavLink>
+            <NavLink
+              onClick={() => window.reload()}
+              style={({ isActive }) => { return isActive ? { color: "#F6BE00", fontSize: "16px" } : {} }}
+              to="/profile"
+              className="link">
               Profile
-          </NavLink>
+            </NavLink>
             <div className="profile-icon-">
               <img src={profileIcon} alt="Profile" className="profile-icon" />
             </div>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
     </div>
   );
 };
