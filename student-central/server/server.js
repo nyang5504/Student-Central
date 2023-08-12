@@ -1,7 +1,7 @@
 require('dotenv').config()
-const username = 'User1';
-const password = '98k4dV1crHfXzpg3';
-const key = '7051477974';
+const username = process.env.USER;
+const password = process.env.PASSWORD;
+const key = process.env.KEY;
 const express = require('express');
 const { MongoClient } = require('mongodb');
 const bcrypt = require('bcrypt');
