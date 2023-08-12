@@ -31,17 +31,16 @@ const QuizHomePage = () => {
                     <button onClick={handleSearchSubmit}>Search</button>
 
                     <div className='space-between' id="space-b-quiz"></div>
-                    <NavLink 
-                        onClick={() => window.reload()}
+                    <NavLink
                         to="custom">
                         <button className='newQuiz-btn'>+</button>
                     </NavLink>
-                    
+
                 </div>
-                
+
             </div>
             <div className='quizHome-right'>
-                <SavedQuizzes/>
+                <SavedQuizzes />
             </div>
         </div>
     );
