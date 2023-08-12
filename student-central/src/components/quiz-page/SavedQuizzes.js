@@ -12,7 +12,7 @@ const SavedQuizzes = () => {
   useEffect(() => {
     const getQuizzes = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/quiz/my-quizzes', {
+        const response = await fetch('/api/quiz/my-quizzes', {
           method: 'GET',
           credentials: 'include'
         });
@@ -32,7 +32,7 @@ const SavedQuizzes = () => {
   // Function to delete a quiz
   const handleDeleteQuiz = async (quizName) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/quiz/delete-quiz/${quizName}`, {
+      const response = await fetch(`/api/quiz/delete-quiz/${quizName}`, {
         method: 'DELETE',
         credentials: 'include'
       });

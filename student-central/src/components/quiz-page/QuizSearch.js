@@ -14,7 +14,7 @@ const QuizSearch = () => {
 
     //Retrieves every quiz from every user
     useEffect(() => {
-        fetch('http://localhost:4000/api/quiz/all-quizzes')
+        fetch('/api/quiz/all-quizzes')
             .then((response) => response.json())
             .then((data) => {
                 console.log("allquizData", data);

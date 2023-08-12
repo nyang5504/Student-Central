@@ -67,7 +67,7 @@ useEffect(() => {
   const saveFolders = () => {
     try{
       console.log("SAVETODATABASE", JSON.stringify(folderNotes));
-          fetch('http://localhost:4000/api/schedule/save-folders', {
+          fetch('/api/schedule/save-folders', {
           method:'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -93,7 +93,7 @@ useEffect(() => {
 useEffect(() => {
   const getFolders = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/schedule/my-folders', {
+      const response = await fetch('/api/schedule/my-folders', {
         method: 'GET',
         credentials: 'include',
       });

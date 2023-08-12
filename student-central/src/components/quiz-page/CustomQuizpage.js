@@ -58,7 +58,7 @@ const QuizForm = () => {
   useEffect(() => {
     const saveQuiz = () => {
       try {
-        fetch('http://localhost:4000/api/quiz/save-quiz', {
+        fetch('/api/quiz/save-quiz', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -83,7 +83,7 @@ const QuizForm = () => {
   useEffect(() => {
     const getQuizzes = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/quiz/my-quizzes', {
+        const response = await fetch('/api/quiz/my-quizzes', {
           method: 'GET',
           credentials: 'include'
         });
