@@ -10,6 +10,7 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 
+const path = require('path');
 
 //MongoDB port
 const app = express();
@@ -23,6 +24,8 @@ app.use(express.json());
 
 // Parses cookies
 app.use(cookieParser());
+
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // MongoDB url and password
 const uri = `mongodb+srv://${username}:${password}@studentcentral.mci0sqm.mongodb.net/`;
@@ -525,8 +528,8 @@ MongoClient.connect(uri, options)
       }
     });
 
-    app.get("*", function (request, response) {
-      response.sendFile(path.resolve(__dirname, "../student-central/build", "index.html"));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname + '/student-central/build/index.html'));
     });
 
     // Server success or error
