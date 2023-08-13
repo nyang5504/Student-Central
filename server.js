@@ -525,9 +525,11 @@ MongoClient.connect(uri, options)
       }
     });
 
-    if(process.env.NODE_ENV === 'production'){
-      app.use(express.static('student-central/build'))
-    }
+    if(process.env.NODE_ENV === "production") {
+      app.use(express.static("student-central/build"));
+      app.get("/*", function(req, res) {
+          res.sendFile(path.join(__dirname, "./student-central/build/index.html"));
+        }); }
 
     // Server success or error
     app.listen(port, () => {
