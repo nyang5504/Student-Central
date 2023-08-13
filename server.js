@@ -100,7 +100,7 @@ MongoClient.connect(uri, options)
         const token = jwt.sign({ username }, key);
 
         // Create cookie and set the token. httpOnly and sameSite is for security
-        res.cookie('token', token, { httpOnly: true, sameSite: 'strict',expires:0 });
+        res.cookie('token', token, { httpOnly: true, sameSite: 'strict', expires: 0 });
 
         // Send successful response
         res.status(200).json({ message: 'Login was a success' });
@@ -525,11 +525,10 @@ MongoClient.connect(uri, options)
       }
     });
 
-    if(process.env.NODE_ENV === "production") {
-      app.use(express.static("student-central/build"));
-      app.get("/*", function(req, res) {
-          res.sendFile(path.join(__dirname, "./student-central/build/index.html"));
-        }); }
+    isProduction &&
+      app.get("*", function (request, response) {
+        response.sendFile(path.resolve(__dirname, "../student-central/build", "index.html"));
+      });
 
     // Server success or error
     app.listen(port, () => {
