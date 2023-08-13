@@ -525,10 +525,9 @@ MongoClient.connect(uri, options)
       }
     });
 
-    isProduction &&
-      app.get("*", function (request, response) {
-        response.sendFile(path.resolve(__dirname, "../student-central/build", "index.html"));
-      });
+    app.get("*", function (request, response) {
+      response.sendFile(path.resolve(__dirname, "../student-central/build", "index.html"));
+    });
 
     // Server success or error
     app.listen(port, () => {
