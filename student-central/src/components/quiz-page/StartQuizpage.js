@@ -31,7 +31,7 @@ const StartQuizPage = (props) => {
     useEffect(() => {
         const fetchQuizDataUser = async () => {
             try {
-                const response = await fetch(`/api/quiz/get-one-quiz/${quizName}`, {
+                const response = await fetch(`/api/quiz/get-one-quiz/${encodeURIComponent(quizName)}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -56,7 +56,7 @@ const StartQuizPage = (props) => {
 
         const fetchQuizDataSearch = async (creator) => {
             try {
-                const response = await fetch(`/api/quiz/one-quiz-from-all/${quizName}/${creator}`, {
+                const response = await fetch(`/api/quiz/one-quiz-from-all/${encodeURIComponent(quizName)}/${encodeURIComponent(creator)}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -93,7 +93,7 @@ const StartQuizPage = (props) => {
         setQuizType(quizType);
 
         // Navigate to the QuizQuestions.js with url as the quiz type
-        navigate(`/quiz/${quizName}/questions?type=${quizType}`, {
+        navigate(`/quiz/${encodeURIComponent(quizName)}/questions?type=${quizType}`, {
             state:{prevPath: location.pathname, creator: quizCreator}
         });
         // <Link to={`/quiz/${quizName}/questions?type=${quizType}`}

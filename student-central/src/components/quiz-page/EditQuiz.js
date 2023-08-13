@@ -24,7 +24,7 @@ const EditQuiz = () => {
     useEffect(() => {
         const fetchQuizData = async () => {
             try {
-                const response = await fetch(`/api/quiz/get-one-quiz/${quizName}`, {
+                const response = await fetch(`/api/quiz/get-one-quiz/${encodeURIComponent(quizName)}`, {
                     method: 'GET',
                     credentials: 'include',
                 });
@@ -100,7 +100,7 @@ const EditQuiz = () => {
     // Save changes to database
     const handleSaveChanges = async () => {
         try {
-            const response = await fetch(`/api/quiz/edit-quiz/${quizName}`, {
+            const response = await fetch(`/api/quiz/edit-quiz/${encodeURIComponent(quizName)}`, {
                 method: 'PUT',
                 credentials: 'include',
                 headers: {

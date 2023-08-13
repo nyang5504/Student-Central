@@ -369,7 +369,7 @@ MongoClient.connect(uri, options)
     })
 
     // Delete Quiz Endpoint
-    app.delete('/api/quiz/delete-quiz/:quizName+', async (req, res) => {
+    app.delete('/api/quiz/delete-quiz/:quizName', async (req, res) => {
       const token = req.cookies.token;
       if (!token) {
         return res.status(401).json({ error: 'Token does not exist' });
@@ -409,7 +409,7 @@ MongoClient.connect(uri, options)
     });
 
     // Edit Quiz Endpoint
-    app.put('/api/quiz/edit-quiz/:quizName+', async (req, res) => {
+    app.put('/api/quiz/edit-quiz/:quizName', async (req, res) => {
       const token = req.cookies.token;
       if (!token) {
         return res.status(401).json({ error: 'Token does not exist' });
@@ -446,7 +446,7 @@ MongoClient.connect(uri, options)
     });
 
     // Endpoint for retrieving a single quiz from a user
-    app.get('/api/quiz/get-one-quiz/:quizName+', async (req, res) => {
+    app.get('/api/quiz/get-one-quiz/:quizName', async (req, res) => {
       const token = req.cookies.token;
       if (!token) {
         return res.status(401).json({ error: 'Token does not exist' });
@@ -472,7 +472,7 @@ MongoClient.connect(uri, options)
       }
     });
 
-    app.get('/api/quiz/one-quiz-from-all/:quizName+/:user+', async (req, res) => {
+    app.get('/api/quiz/one-quiz-from-all/:quizName/:user', async (req, res) => {
       const token = req.cookies.token;
       if (!token) {
         return res.status(401).json({ error: 'Token does not exist' });

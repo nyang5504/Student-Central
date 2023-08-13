@@ -78,7 +78,7 @@ const QuizSearch = () => {
                             filteredQuizzes[creatorName].map((quizName) =>
                                 <li key={quizName}>
                                     <span>{quizName} by: {creatorName}</span>
-                                    <Link to={`/quiz/start-quiz/${quizName}`}
+                                    <Link to={`/quiz/start-quiz/${encodeURIComponent(quizName)}`}
                                         state={{ prevPath: location.pathname, creator: creatorName }}>Start</Link>
                                 </li>
                             )

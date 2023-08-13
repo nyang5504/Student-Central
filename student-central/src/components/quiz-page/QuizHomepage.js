@@ -14,7 +14,7 @@ const QuizHomePage = () => {
 
     const handleSearchSubmit = () => {
         // Redirect to QuizSearch.js with the search term as a query parameter
-        navigate(`/quiz/search?term=${searchTerm}`);
+        navigate(`/quiz/search?term=${encodeURIComponent(searchTerm)}`);
     };
 
     return (

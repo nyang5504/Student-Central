@@ -32,7 +32,7 @@ const SavedQuizzes = () => {
   // Function to delete a quiz
   const handleDeleteQuiz = async (quizName) => {
     try {
-      const response = await fetch(`/api/quiz/delete-quiz/${quizName}`, {
+      const response = await fetch(`/api/quiz/delete-quiz/${encodeURIComponent(quizName)}`, {
         method: 'DELETE',
         credentials: 'include'
       });
@@ -60,10 +60,10 @@ const SavedQuizzes = () => {
             <li key={quizName}>
               <span>{quizName}</span>
               {/* Start quiz button which redirects user to start quiz page for that quiz */}
-              <Link to={`start-quiz/${quizName}`}
+              <Link to={`start-quiz/${encodeURIComponent(quizName)}`}
               state={{prevPath: location.pathname}}>Start</Link>
               {/* Edit quiz button which redirects user to edit quiz page for that quiz */}
-              <Link to={`edit-quiz/${quizName}`}>Edit</Link>
+              <Link to={`edit-quiz/${encodeURIComponent(quizName)}`}>Edit</Link>
               <button onClick={() => handleDeleteQuiz(quizName)}>Delete</button>
             </li>
           );

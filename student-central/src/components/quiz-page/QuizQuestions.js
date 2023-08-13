@@ -132,7 +132,7 @@ const QuizQuestions = () => {
   useEffect(() => {
     const fetchQuizData = async () => {
       try {
-        const response = await fetch(`/api/quiz/get-one-quiz/${quizName}`, {
+        const response = await fetch(`/api/quiz/get-one-quiz/${encodeURIComponent(quizName)}`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -160,7 +160,7 @@ const QuizQuestions = () => {
 
     const fetchQuizDataSearch = async (creator) => {
       try {
-        const response = await fetch(`/api/quiz/one-quiz-from-all/${quizName}/${creator}`, {
+        const response = await fetch(`/api/quiz/one-quiz-from-all/${encodeURIComponent(quizName)}/${encodeURIComponent(creator)}`, {
           method: 'GET',
           credentials: 'include',
         });
