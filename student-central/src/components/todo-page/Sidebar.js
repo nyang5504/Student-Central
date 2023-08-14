@@ -7,6 +7,7 @@ const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDe
 
   // Function to set the current folder being used and edited
   const handleFolderClick = (folderName) => {
+    console.log("folders", folders);
     setSelectedNote(null);
     setSelectedFolder(folderName);
 
