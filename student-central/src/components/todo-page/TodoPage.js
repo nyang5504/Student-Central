@@ -127,6 +127,7 @@ return (
         //Pass down props from Sidebar.js
         setSelectedFolder={setSelectedFolder}
         folders={Object.keys(folderNotes)}
+        actualFolders={folders}
         onAddFolder={handleAddFolder}
         onDeleteFolder={deleteFolder}
         selectedFolder={selectedFolder}
