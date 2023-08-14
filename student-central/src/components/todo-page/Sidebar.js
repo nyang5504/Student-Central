@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import addButton from '../../assets/add-button.PNG';
 import deleteButton from '../../assets/delete-button.PNG';
 
 const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDeleteFolder, setSelectedNote, actualFolders }) => {
   const [newFolderName, setNewFolderName] = useState('');
 
+  const location = useLocation();
   // Function to set the current folder being used and edited
   const handleFolderClick = (folderName) => {
     console.log("folders", folders);
@@ -30,7 +31,7 @@ const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDe
   // Function to delete a folder
   const handleDeleteFolder = (folderName) => {
     onDeleteFolder(folderName);
-    window.reload();
+    location.reload();
   };
 
   return (
