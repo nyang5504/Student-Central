@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import addButton from '../../assets/add-button.PNG';
 import deleteButton from '../../assets/delete-button.PNG';
 
-const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDeleteFolder, setSelectedNote }) => {
+const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDeleteFolder }) => {
   const [newFolderName, setNewFolderName] = useState('');
 
   // Function to set the current folder being used and edited
   const handleFolderClick = (folderName) => {
-    setSelectedNote(null);
     setSelectedFolder(folderName);
   };
 
