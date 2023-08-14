@@ -47,11 +47,14 @@ const TodoPage = () => {
   // Function to delete a folder and it's notes
 const deleteFolder = (folderName) => {
   // Remove the folder and its notes
+  console.log("foldername",folderName);
+  console.log("foldernotes",folderNotes);
   setFolderNotes((prevNotes) => {
     const updatedNotes = { ...prevNotes };
     delete updatedNotes[folderName];
     setSelectedNote(null);
     //Render the new folders in the Sidebar
+    console.log("updatednotes",updatedNotes);
     return updatedNotes;
   });
 
