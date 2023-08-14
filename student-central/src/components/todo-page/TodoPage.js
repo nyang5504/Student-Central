@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import NoteSection from './NoteSection';
 import NoteList from './NoteList';
@@ -42,6 +42,7 @@ const TodoPage = () => {
       // Find the note in the folder using filter
       [folderName]: prevNotes[folderName].filter((note) => note !== noteToDelete),
     }));
+    window.reload();
   };
 
   // Function to delete a folder and it's notes

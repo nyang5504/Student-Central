@@ -4,9 +4,6 @@ import { NavLink } from 'react-router-dom';
 import profileIcon from '../assets/Ellipse 6.png';
 
 const Navigation = () => {
-  const handleRefresh = () => {
-    window.location.reload();
-  };
   return (
     <div className='entire-navbar'>
       <nav className="navigation">
