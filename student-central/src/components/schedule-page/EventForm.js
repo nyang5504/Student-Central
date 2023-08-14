@@ -8,6 +8,10 @@ const EventForm = (props) => {
         e.preventDefault();
         
         //create event out of form values
+        if(e.target.from.value > e.target.to.value){
+            alert("Ending date cannot be before beginning date");
+            return;
+        }
         const a_event = createEventObject(e);
 
         //add new event to list of all current events
@@ -27,6 +31,8 @@ const EventForm = (props) => {
         a_event.start = e.target.from.value;
         const end = new Date(e.target.to.value);
         end.setDate(end.getDate() + 2);
+
+
 
         a_event.end = formatDate(end);
         return a_event;

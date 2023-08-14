@@ -127,6 +127,7 @@ return (
         onAddFolder={handleAddFolder}
         onDeleteFolder={deleteFolder}
         selectedFolder={selectedFolder}
+        setSelectedNote={setSelectedNote}
       />
       <NoteList
         // Pass down props to NotesList.js
