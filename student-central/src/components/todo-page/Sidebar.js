@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import addButton from '../../assets/add-button.PNG';
 import deleteButton from '../../assets/delete-button.PNG';
 
@@ -29,6 +30,7 @@ const Sidebar = ({ selectedFolder, setSelectedFolder, folders, onAddFolder, onDe
   // Function to delete a folder
   const handleDeleteFolder = (folderName) => {
     onDeleteFolder(folderName);
+    window.reload();
   };
 
   return (

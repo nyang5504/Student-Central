@@ -42,7 +42,6 @@ const TodoPage = () => {
       // Find the note in the folder using filter
       [folderName]: prevNotes[folderName].filter((note) => note !== noteToDelete),
     }));
-    window.reload();
   };
 
   // Function to delete a folder and it's notes
