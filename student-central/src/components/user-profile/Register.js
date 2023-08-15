@@ -26,8 +26,16 @@ const Registerform = () => {
     const handleRegister = async (e) => {
         // stops page from refreshing
         e.preventDefault();
-
+        if(formStrings.username.trim() === ""){
+            setErrorMessage("Please enter a username")
+            return;
+        }
+        if(formStrings.password.trim() === ""){
+            setErrorMessage("Please enter a valid password")
+            return;
+        }
         //Checks if passowrd/confirmpassword works
+        
         if (formStrings.password !== formStrings.confirmPassword) {
             setErrorMessage("Passwords do not match");
             return;

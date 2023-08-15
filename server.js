@@ -99,7 +99,7 @@ MongoClient.connect(uri, options)
           return res.status(401).json({ error: 'Invalid password' });
         }
 
-        // Create a token based on username and key, key will be randomized later
+        // Create a token based on username and key
         const token = jwt.sign({ username }, key);
 
         // Create cookie and set the token. httpOnly and sameSite is for security
