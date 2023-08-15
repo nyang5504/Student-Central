@@ -28,9 +28,7 @@ const NoteList = ({ selectedFolder, folderNotes, selectedNote, setSelectedNote, 
 
   return (
     <div className="notes-list">
-      {isFolderDeleted ? (
-        <p>No folder selected.</p>
-      ) : selectedFolder ? (
+      {selectedFolder ? (
         <>
           <h2>All Notes in {selectedFolder}</h2>
           {folderNotes[selectedFolder] && folderNotes[selectedFolder].length > 0 ? (
