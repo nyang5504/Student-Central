@@ -43,8 +43,11 @@ const Profile = () => {
     // Prevents page from refreshing
     e.preventDefault();
 
-    if (!newPass) {
-      alert("Please enter a new password.");
+    if(newPass.trim() === ""){
+      setErrorMsg("Please enter a valid password");
+      setSuccessMsg('');
+      setPass('');
+      setNewPass('');
       return;
     }
     
@@ -67,6 +70,8 @@ const Profile = () => {
         const errorData = await response.json();
         setErrorMsg(errorData.error);
         setSuccessMsg('');
+        setPass('');
+        setNewPass('');
       }
     } catch (error) {
       console.error('Error changing password:', error);
