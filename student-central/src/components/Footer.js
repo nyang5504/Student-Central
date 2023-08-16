@@ -12,7 +12,7 @@ const Footer = () => {
         </div>
         <div className="card">
           <h2 className='card-name'>Nina Yang</h2>
-          <p>Hi.</p>
+          <p>A Computer Science major who's interested in Web and Mobile App development</p>
         </div>
       </div>
     </footer>
