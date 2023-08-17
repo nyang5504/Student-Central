@@ -128,6 +128,7 @@ const EditQuiz = () => {
                 <div className='createQuizTitle'>
                     <h2>Edit Quiz:  {quizData.quizName}</h2>
                 </div>
+                {/* Attribution to w3schools.com for toggle switch */}
                 <div className='switch-container'> public: &nbsp;
                     <label className='switch'>
                         <input className='switch-input' type='checkbox' checked={quizData.publicize} onChange={() => handleChangePublicize(!quizData.publicize)} />

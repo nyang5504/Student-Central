@@ -101,6 +101,7 @@
     background-color: rgb(255, 71, 71);
 }
 
+/* Attribution to w3schools.com for toggle switch */
 .switch {
     position: relative;
     display: inline-block;

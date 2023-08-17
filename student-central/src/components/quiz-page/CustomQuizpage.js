@@ -118,6 +118,7 @@ const QuizForm = () => {
           </div>
           <div className="switch-container">
             public: &nbsp;
+            {/* Attribution to w3schools.com for toggle switch */}
             <label className='switch'>
               <input className='switch-input' type='checkbox' onChange={() => setPublicized(!publicized)} />
               <span className='slider'></span>
